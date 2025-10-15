@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
             footerContactEmail: "Email: ahmadfaqihdidin@gmail.com",
             footerContactPhone: "Phone: +62 821 4742 2821",
             footerContactLocation: "Location: Semarang, Indonesia",
-            footerMadeWith: "Made with love & code."
+            footerMadeWith: "Made with 💕 by Istri Cantikku ( Mimma M A).."
         },
         id: {
             navAbout: "Tentang",
@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function() {
             footerContactEmail: "Email: ahmadfaqihdidin@gmail.com",
             footerContactPhone: "Telepon: +62 821 4742 2821",
             footerContactLocation: "Lokasi: Semarang, Indonesia",
-            footerMadeWith: "Dibuat dengan cinta & kode."
+            footerMadeWith: "Made with 💕 by Istri Cantikku ( Mimma M A)."
         }
     };
 
