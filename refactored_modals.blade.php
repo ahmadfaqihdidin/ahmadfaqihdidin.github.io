@@ -3,15 +3,31 @@
     @if($showCompetencyModal)
     @teleport('#modals')
     <!-- Modal Backdrop -->
-    <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+         x-data="{ show: false }" x-init="$nextTick(() => show = true)">
+
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
             <!-- Background overlay -->
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 backdrop-blur-sm"
+                 x-show="show"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
                  wire:click.self="$set('showCompetencyModal', false)"
                  aria-hidden="true"></div>
 
             <!-- Modal Panel -->
-            <div class="relative inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl sm:p-8">
+            <div class="relative inline-block w-full max-w-lg p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl sm:p-8"
+                 x-show="show"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-90"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-90">
 
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-8">
@@ -94,17 +110,32 @@
     {{-- 2. Standard Mapping Modal (Job & K3) --}}
     @if($showStandardModal)
     @teleport('#modals')
-    <div class="fixed inset-0 z-50 overflow-hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 z-50 overflow-hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+         x-data="{ show: false }" x-init="$nextTick(() => show = true)">
+
         <div class="absolute inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm transition-opacity"
+             x-show="show"
+             x-transition:enter="ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
              wire:click.self="$set('showStandardModal', false)"></div>
 
         <div class="fixed inset-0 flex items-center justify-center p-4 sm:p-6">
-            <div class="relative w-full max-w-6xl h-full max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+            <div class="relative w-full max-w-6xl h-full max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row transform transition-all"
+                 x-show="show"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-90"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-90">
 
                 @php
                     $isK3 = $standardType === 'k3';
-                    $themeColorClass = $isK3 ? 'rose' : 'emerald'; // For logic
-                    // Static classes for better readability/maintainability, though dynamic works too.
+                    $themeColorClass = $isK3 ? 'rose' : 'emerald';
                     $bannerClass = $isK3 ? 'from-rose-600 to-rose-700' : 'from-emerald-600 to-emerald-700';
                     $btnClass = $isK3 ? 'bg-rose-600 hover:bg-rose-700 focus:ring-rose-300' : 'bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-300';
                     $lightBgClass = $isK3 ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700';
@@ -248,12 +279,29 @@
     {{-- 3. Import CSV Modal --}}
     @if($showImportModal)
     @teleport('#modals')
-    <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+         x-data="{ show: false }" x-init="$nextTick(() => show = true)">
+
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
             <div class="fixed inset-0 transition-opacity bg-gray-900 bg-opacity-75 backdrop-blur-sm"
+                 x-show="show"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
                  wire:click.self="$set('showImportModal', false)"></div>
 
-            <div class="relative inline-block w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl sm:p-8">
+            <div class="relative inline-block w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl sm:p-8"
+                 x-show="show"
+                 x-transition:enter="ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-90"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-90">
+
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-8">
                     <div>
