@@ -1,5 +1,5 @@
 <div class="space-y-8"
-     x-data="smkpDashboard(@js($chartData))"
+     x-data="smkpDashboard({{ \Illuminate\Support\Js::from($chartData) }})"
 >
     {{-- PAGE HEADER --}}
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-2xl shadow-2xl border border-emerald-500 p-6 text-white">
@@ -32,7 +32,6 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {{-- Filter Type --}}
             <div class="space-y-2">
                 <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Tipe Filter</label>
                 <select wire:model.live="filterType" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
@@ -42,7 +41,6 @@
                 </select>
             </div>
 
-            {{-- Year Filter --}}
             @if($filterType === 'year')
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Pilih Tahun</label>
@@ -68,7 +66,6 @@
                 </div>
             @endif
 
-            {{-- Company Filter --}}
             <div class="space-y-2">
                 <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Perusahaan</label>
                 <select wire:model.live="filterCompany" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
@@ -79,7 +76,6 @@
                 </select>
             </div>
 
-            {{-- Action Buttons --}}
             <div class="flex items-end gap-2">
                 <button wire:click="applyFilter" class="flex-1 px-4 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-black hover:bg-emerald-700 active:scale-95 transition-all shadow-md shadow-emerald-200">
                     <i class="fas fa-check mr-1"></i> Terapkan
@@ -106,7 +102,7 @@
         </div>
     </div>
 
-    {{-- ELEMENT I - KEBIJAKAN (POLICY) --}}
+    {{-- ELEMENT I - KEBIJAKAN --}}
     <div id="element1" class="scroll-mt-32">
         <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border-l-4 border-blue-500 shadow-lg">
             <div class="flex items-center gap-3 mb-6">
@@ -118,7 +114,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {{-- Gauge: Sosialisasi Kebijakan --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 class="text-sm font-black text-gray-700 uppercase mb-4 flex items-center gap-2">
                         <i class="fas fa-gauge-high text-blue-500"></i>
@@ -135,7 +130,6 @@
                     </p>
                 </div>
 
-                {{-- Number Card: Induksi Tamu & Mitra --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 class="text-sm font-black text-gray-700 uppercase mb-4 flex items-center gap-2">
                         <i class="fas fa-users text-purple-500"></i>
@@ -150,7 +144,7 @@
         </div>
     </div>
 
-    {{-- ELEMENT II - PERENCANAAN (PLANNING) --}}
+    {{-- ELEMENT II - PERENCANAAN --}}
     <div id="element2" class="scroll-mt-32">
         <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl p-6 border-l-4 border-emerald-500 shadow-lg">
             <div class="flex items-center gap-3 mb-6">
@@ -162,7 +156,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {{-- S-Curve --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 class="text-sm font-black text-gray-700 uppercase mb-4">Realisasi TNA (Plan vs Actual)</h3>
                     <div class="h-64">
@@ -173,7 +166,6 @@
                     </p>
                 </div>
 
-                {{-- Bar Chart: Gap Kompetensi --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 class="text-sm font-black text-gray-700 uppercase mb-4">Top 5 Gap Kompetensi</h3>
                     <div class="h-64">
@@ -184,7 +176,7 @@
         </div>
     </div>
 
-    {{-- ELEMENT III - ORGANISASI & PERSONEL --}}
+    {{-- ELEMENT III - ORGANISASI --}}
     <div id="element3" class="scroll-mt-32">
         <div class="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-6 border-l-4 border-amber-500 shadow-lg">
             <div class="flex items-center gap-3 mb-6">
@@ -196,7 +188,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {{-- Stacked Bar: Pengawas --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 class="text-sm font-black text-gray-700 uppercase mb-4">Status Kompetensi Pengawas</h3>
                     <div class="h-48">
@@ -204,7 +195,6 @@
                     </div>
                 </div>
 
-                {{-- Pie Chart: Matrix Compliance --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 class="text-sm font-black text-gray-700 uppercase mb-4">Kepatuhan Matrix Jabatan</h3>
                     <div class="h-48">
@@ -213,7 +203,6 @@
                     <p class="text-center mt-4 text-lg font-black text-emerald-600">{{ $elementIII['matrix_compliance_percent'] }}% Compliant</p>
                 </div>
 
-                 {{-- Stats Summary --}}
                  <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100 flex flex-col justify-center gap-4">
                     <div class="flex justify-between items-center border-b pb-2">
                         <span class="text-xs font-bold text-gray-500 uppercase">Total Pengawas</span>
@@ -244,7 +233,6 @@
             </div>
 
              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {{-- ERT Readiness --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 class="text-sm font-black text-gray-700 uppercase mb-4">Kesiapan Tim ERT</h3>
                     <div class="flex items-center justify-between mb-4">
@@ -262,7 +250,6 @@
                     </div>
                 </div>
 
-                {{-- High Risk Trainings --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                      <h3 class="text-sm font-black text-gray-700 uppercase mb-4">Training Risiko Tinggi</h3>
                      <div class="space-y-4">
@@ -273,7 +260,7 @@
                                  <span class="text-sm font-bold text-gray-900">{{ $training['trained'] }} Org</span>
                              </div>
                               <div class="w-full bg-gray-100 rounded-full h-2">
-                                <div class="bg-orange-500 h-2 rounded-full" style="width: 50%"></div> {{-- Placeholder width as required is 0 in code --}}
+                                <div class="bg-orange-500 h-2 rounded-full" style="width: 50%"></div>
                             </div>
                          </div>
                          @endforeach
@@ -283,7 +270,7 @@
         </div>
     </div>
 
-    {{-- ELEMENT V - PEMANTAUAN & EVALUASI --}}
+    {{-- ELEMENT V - PEMANTAUAN --}}
     <div id="element5" class="scroll-mt-32">
         <div class="bg-gradient-to-br from-rose-50 to-rose-100 rounded-2xl p-6 border-l-4 border-rose-500 shadow-lg">
             <div class="flex items-center gap-3 mb-6">
@@ -295,7 +282,6 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {{-- Radar Chart: Training Effectiveness --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 class="text-sm font-black text-gray-700 uppercase mb-4">Skor Efektivitas Training</h3>
                     <div class="h-64">
@@ -303,7 +289,6 @@
                     </div>
                 </div>
 
-                {{-- Line Chart: Fail Rate Trend --}}
                 <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 class="text-sm font-black text-gray-700 uppercase mb-4">Tingkat Kegagalan (Fail Rate)</h3>
                     <div class="h-64">
@@ -365,24 +350,13 @@
             charts: {},
 
             init() {
-                // Initialize charts on first load
                 this.initCharts();
 
-                // Livewire 3 automatically handles DOM diffing.
-                // When the component refreshes (e.g. filter applied), the HTML is updated.
-                // However, the Alpine component might not automatically "see" the new @js data
-                // if it's passed into x-data, because x-data is evaluated on initialization.
-                // But since the entire root div has x-data, Livewire's morphing usually
-                // triggers a re-initialization of the Alpine component if the attribute changes.
-                //
-                // We add a listener for the specific event 'refreshCharts' just in case
-                // we want to trigger manual updates without full re-render,
-                // though in this specific setup, the re-render does the heavy lifting.
-
-                Livewire.on('refreshCharts', () => {
-                    // In a real Livewire 3 app, the DOM updates, and we might need to
-                    // re-initialize charts if the Canvas elements were replaced.
-                    // We use a small timeout to let the DOM settle.
+                // IMPORTANT: Listen for event with data payload to update charts
+                Livewire.on('refreshCharts', ({ data }) => {
+                    console.log('Refreshing charts with new data:', data);
+                    this.data = data;
+                    // Small delay to ensure any DOM updates from Livewire render are finished
                     setTimeout(() => {
                         this.initCharts();
                     }, 50);
@@ -390,20 +364,11 @@
             },
 
             initCharts() {
-                // Safety check for Chart.js
                 if (typeof Chart === 'undefined') {
-                    console.error('Chart.js is not loaded. Please ensure the library is included.');
+                    console.error('Chart.js is not loaded.');
                     return;
                 }
 
-                // If data has been updated via Livewire re-render, `this.data`
-                // might still hold the old initialData if Alpine didn't re-eval x-data.
-                // But in a standard Livewire component, the whole view re-renders,
-                // creating a fresh Alpine instance with fresh data.
-
-                console.log('Initializing SMKP Dashboard Charts...', this.data);
-
-                // Helper to destroy existing chart instances to prevent memory leaks/glitches
                 const destroyChart = (key) => {
                     if (this.charts[key]) {
                         this.charts[key].destroy();
@@ -465,12 +430,7 @@
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    max: 100
-                                }
-                            }
+                            scales: { y: { beginAtZero: true, max: 100 } }
                         }
                     });
                 }
@@ -544,14 +504,13 @@
                     this.charts.radar = new Chart(radarCtx, {
                         type: 'radar',
                         data: {
-                            labels: ['Kepuasan (Reaction)', 'Ujian (Learning)', 'Perilaku (Behavior)'],
+                            labels: ['Kepuasan', 'Ujian', 'Perilaku'],
                             datasets: [{
                                 label: 'Skor Efektivitas',
-                                // Normalize scores to 0-100 scale for radar
                                 data: [
-                                    this.data.elementV.satisfaction_score * 20, // 5 scale -> 100
-                                    this.data.elementV.exam_score,            // 100 scale
-                                    this.data.elementV.behavior_score * 20    // 5 scale -> 100
+                                    this.data.elementV.satisfaction_score * 20,
+                                    this.data.elementV.exam_score,
+                                    this.data.elementV.behavior_score * 20
                                 ],
                                 backgroundColor: 'rgba(139, 92, 246, 0.2)',
                                 borderColor: '#8b5cf6',
@@ -561,13 +520,7 @@
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            scales: {
-                                r: {
-                                    min: 0,
-                                    max: 100,
-                                    ticks: { stepSize: 20 }
-                                }
-                            }
+                            scales: { r: { min: 0, max: 100, ticks: { stepSize: 20 } } }
                         }
                     });
                 }
@@ -592,9 +545,7 @@
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            scales: {
-                                y: { beginAtZero: true }
-                            }
+                            scales: { y: { beginAtZero: true } }
                         }
                     });
                 }
