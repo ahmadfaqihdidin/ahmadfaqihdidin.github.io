@@ -26,20 +26,20 @@
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
         /* Animation Definitions */
-        .slide-in-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1); }
-        .slide-in-right { opacity: 0; transform: translateX(50px); transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1); }
-        .zoom-in { opacity: 0; transform: scale(0.9); transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1); }
-        .fade-in-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1); }
+        .slide-in-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .slide-in-right { opacity: 0; transform: translateX(30px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .zoom-in { opacity: 0; transform: scale(0.95); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         
         /* Class to trigger animation */
         .is-visible { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
         
         /* Hover Effect for Cards */
-        .card-hover-effect { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .card-hover-effect:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        .card-hover-effect { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card-hover-effect:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
 
         /* Mobile Menu Styles */
-        #mobile-menu { transform: translateX(100%); transition: transform 0.3s ease-in-out; }
+        #mobile-menu { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         #mobile-menu.is-open { transform: translateX(0); }
         .hamburger-line { transition: all 0.3s; }
         .is-open .hamburger-line-top { transform: rotate(45deg) translate(5px, 6px); }
@@ -49,24 +49,24 @@
         /* Project Modal Styles */
         .modal {
             visibility: hidden; opacity: 0;
-            transition: visibility 0s 0.3s, opacity 0.3s ease;
+            transition: visibility 0s 0.4s, opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .modal.is-open {
             visibility: visible; opacity: 1;
-            transition: visibility 0s, opacity 0.3s ease;
+            transition: visibility 0s, opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .modal-content {
-            transform: scale(0.9); opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: scale(0.95) translateY(20px); opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .modal.is-open .modal-content {
-            transform: scale(1); opacity: 1;
+            transform: scale(1) translateY(0); opacity: 1;
         }
         
         /* Carousel Styles */
         .carousel-item {
             display: none;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .carousel-item.active {
             display: block;
@@ -119,15 +119,15 @@
     </header>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 bg-white shadow-lg z-50 p-8">
-        <nav class="flex flex-col space-y-8 mt-16 text-xl">
-            <a href="#about" class="mobile-nav-link text-brand-text hover:text-brand-blue transition font-medium" data-lang-key="mNavAbout">About</a>
-            <a href="#services" class="mobile-nav-link text-brand-text hover:text-brand-blue transition font-medium" data-lang-key="mNavServices">Services</a>
-            <a href="#experience" class="mobile-nav-link text-brand-text hover:text-brand-blue transition font-medium" data-lang-key="mNavExperience">Experience</a>
-            <a href="#testimonials" class="mobile-nav-link text-brand-text hover:text-brand-blue transition font-medium" data-lang-key="mNavTestimonials">Testimonials</a>
-            <a href="#portfolio" class="mobile-nav-link text-brand-text hover:text-brand-blue transition font-medium" data-lang-key="mNavPortfolio">Portfolio</a>
-            <a href="#contact" class="mobile-nav-link bg-brand-blue text-white text-center px-6 py-3 rounded-full font-semibold hover:bg-brand-dark-blue transition" data-lang-key="mNavGetInTouch">Get in touch</a>
-            <button id="translate-button-mobile" class="mt-4 bg-gray-200 text-brand-heading px-6 py-3 rounded-full font-semibold text-lg hover:bg-gray-300 transition">ID</button>
+    <div id="mobile-menu" class="md:hidden fixed top-0 right-0 h-full w-3/4 bg-white/95 backdrop-blur-lg shadow-2xl z-50 p-8 flex flex-col justify-center">
+        <nav class="flex flex-col space-y-6 text-xl text-center">
+            <a href="#about" class="mobile-nav-link text-brand-heading hover:text-brand-blue transition font-semibold" data-lang-key="mNavAbout">About</a>
+            <a href="#services" class="mobile-nav-link text-brand-heading hover:text-brand-blue transition font-semibold" data-lang-key="mNavServices">Services</a>
+            <a href="#experience" class="mobile-nav-link text-brand-heading hover:text-brand-blue transition font-semibold" data-lang-key="mNavExperience">Experience</a>
+            <a href="#testimonials" class="mobile-nav-link text-brand-heading hover:text-brand-blue transition font-semibold" data-lang-key="mNavTestimonials">Testimonials</a>
+            <a href="#portfolio" class="mobile-nav-link text-brand-heading hover:text-brand-blue transition font-semibold" data-lang-key="mNavPortfolio">Portfolio</a>
+            <a href="#contact" class="mobile-nav-link bg-brand-blue text-white px-6 py-3 rounded-full font-semibold hover:bg-brand-dark-blue transition shadow-md" data-lang-key="mNavGetInTouch">Get in touch</a>
+            <button id="translate-button-mobile" class="mt-6 bg-gray-200 text-brand-heading px-6 py-3 rounded-full font-semibold text-lg hover:bg-gray-300 transition shadow-sm">ID</button>
         </nav>
     </div>
 
@@ -157,8 +157,8 @@
                     </div>
 
                     <!-- Center Image -->
-                    <div class="relative z-10 lg:col-span-1 flex justify-center order-first md:order-none">
-                        <img src="upper.png" alt="Ahmad Faqih Imaduddin" class="max-h-[85vh] object-contain">
+                    <div class="relative z-10 lg:col-span-1 flex justify-center order-first md:order-none fade-in-up" style="--stagger-delay: 200ms;">
+                        <img src="images/upper.png" alt="Ahmad Faqih Imaduddin" class="max-h-[85vh] object-contain" loading="lazy">
                     </div>
 
                     <!-- Right Column -->
@@ -186,7 +186,7 @@
     <div class="container mx-auto px-6">
         <div class="grid md:grid-cols-2 gap-16 items-center fade-in-up">
             <div>
-                <img src="footer.png" alt="Ahmad Faqih at work" class="rounded-2xl shadow-xl w-full">
+                <img src="images/footer.png" alt="Ahmad Faqih at work" class="rounded-2xl shadow-xl w-full" loading="lazy">
             </div>
             <div>
                 <p class="text-brand-blue font-semibold mb-2" data-lang-key="aboutMeLabel">ABOUT ME</p>
@@ -389,10 +389,10 @@
                     <div class="relative rounded-2xl shadow-lg overflow-hidden group fade-in-up cursor-pointer project-card" 
                          data-title-en="Young Leadership Program (YLP)"
                          data-title-id="Program Kepemimpinan Muda (YLP)"
-                         data-images="https://placehold.co/800x600/1E3A8A/FFFFFF?text=YLP+1,https://placehold.co/800x600/1E3A8A/FFFFFF?text=YLP+2,https://placehold.co/800x600/1E3A8A/FFFFFF?text=YLP+3"
+                         data-images="images/prj_1.jpg,images/prj_11.jpg"
                          data-description-en="Designed and launched a year-long initiative for 24 fresh graduates from top universities. The program included structured development, mentorship, and a final Quality Control Circle (QCC) improvement project to foster future leaders within the company."
                          data-description-id="Merancang dan meluncurkan inisiatif selama setahun untuk 24 lulusan baru dari universitas terkemuka. Program ini mencakup pengembangan terstruktur, bimbingan, dan proyek peningkatan Gugus Kendali Mutu (GKM) akhir untuk membina para pemimpin masa depan di dalam perusahaan.">
-                        <img src="https://placehold.co/800x600/1E3A8A/FFFFFF?text=YLP+1" alt="Young Leadership Program project display" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out">
+                        <img src="images/prj_1.jpg" alt="Young Leadership Program project display" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-6">
                             <h3 class="text-2xl font-bold text-white" data-lang-key="project1Title">Young Leadership Program (YLP)</h3>
@@ -403,10 +403,10 @@
                     <div class="relative rounded-2xl shadow-lg overflow-hidden group fade-in-up cursor-pointer project-card"
                          data-title-en="LV Practical Field Test Area"
                          data-title-id="Area Uji Lapangan Praktis LV"
-                         data-images="https://placehold.co/800x600/4B5563/FFFFFF?text=LV+Test+1,https://placehold.co/800x600/4B5563/FFFFFF?text=LV+Test+2"
+                         data-images="images/prj_2.jpg,images/prj_22.jpg"
                          data-description-en="Created a dedicated practical field test area for Light Vehicles (LV) to enable realistic assessments of operator driving behavior and vehicle control. This initiative directly contributed to enhancing operator competency and reducing vehicle-related incidents."
                          data-description-id="Menciptakan area uji lapangan praktis khusus untuk Kendaraan Ringan (LV) untuk memungkinkan penilaian realistis terhadap perilaku mengemudi operator dan kontrol kendaraan. Inisiatif ini berkontribusi langsung pada peningkatan kompetensi operator dan mengurangi insiden terkait kendaraan.">
-                         <img src="https://placehold.co/800x600/4B5563/FFFFFF?text=LV+Test+1" alt="Light Vehicle field test area project display" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out">
+                         <img src="images/prj_2.jpg" alt="Light Vehicle field test area project display" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" loading="lazy">
                          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 p-6">
                             <h3 class="text-2xl font-bold text-white" data-lang-key="project2Title">LV Practical Field Test Area</h3>
@@ -479,7 +479,7 @@
                         <a href="mailto:ahmadfaqihdidin@gmail.com" class="mt-8 bg-brand-blue text-white px-8 py-3 rounded-full font-semibold hover:bg-brand-dark-blue transition inline-block shadow-lg transform hover:-translate-y-1" data-lang-key="contactBtn">Start a Conversation</a>
                     </div>
                     <div class="fade-in-up" style="transition-delay: 200ms;">
-                        <img src="https://placehold.co/600x500/EFF6FF/1E3A8A?text=Contact" alt="Ahmad Faqih smiling, ready for collaboration" class="rounded-2xl shadow-xl w-full max-w-md mx-auto">
+                        <img src="images/faqih.png" alt="Ahmad Faqih smiling, ready for collaboration" class="rounded-2xl shadow-xl w-full max-w-md mx-auto" loading="lazy">
                     </div>
                 </div>
             </div>
