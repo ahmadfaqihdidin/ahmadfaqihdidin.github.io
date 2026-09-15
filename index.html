@@ -32,6 +32,10 @@
         #back-to-top { opacity: 0; pointer-events: none; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s; }
         #back-to-top.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
+        /* Navbar elevated state while scrolling */
+        header { transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s, padding 0.3s; }
+        header.is-scrolled { box-shadow: 0 10px 30px -12px rgba(30, 58, 138, 0.18); background-color: rgba(255, 255, 255, 0.92); }
+
         /* Typewriter */
         .typewriter-caret { color: #2563EB; font-weight: 700; animation: caret-blink 1s steps(1) infinite; }
         @keyframes caret-blink { 50% { opacity: 0; } }
@@ -64,9 +68,62 @@
         .slide-in-right { opacity: 0; transform: translateX(30px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .zoom-in { opacity: 0; transform: scale(0.95); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        
+
         /* Class to trigger animation */
         .is-visible { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
+
+        /* --- Scroll transition enhancements --- */
+        @keyframes hero-entrance {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-entrance { opacity: 0; animation: hero-entrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: var(--hero-delay, 0ms); }
+
+        /* Section titles get an accent sweep when they reveal */
+        .section-reveal { position: relative; }
+        .section-reveal::after {
+            content: ''; position: absolute; left: 50%; bottom: -10px;
+            width: 0; height: 3px; border-radius: 9999px;
+            background: linear-gradient(90deg, #2563EB, #1E3A8A);
+            transform: translateX(-50%);
+            transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+        }
+        .section-reveal.is-visible::after { width: 64px; }
+
+        /* Parallax layers (subtle scroll-linked drift) */
+        .parallax { will-change: transform; }
+
+        /* Card hover glow following the cursor */
+        .glow-hover { position: relative; }
+        .glow-hover::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; opacity: 0;
+            background: radial-gradient(220px circle at var(--gx, 50%) var(--gy, 50%), rgba(37, 99, 235, 0.10), transparent 65%);
+            transition: opacity 0.4s; pointer-events: none; z-index: 0;
+        }
+        .glow-hover:hover::before { opacity: 1; }
+
+        /* Tilt shine: light sweep on hover */
+        .shine { position: relative; overflow: hidden; }
+        .shine::after {
+            content: ''; position: absolute; top: -60%; left: -80%; width: 60%; height: 220%;
+            background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+            transform: rotate(20deg); transition: left 0.7s ease; pointer-events: none;
+        }
+        .shine:hover::after { left: 130%; }
+
+        /* Footer reveal: slides up over the page bottom */
+        .footer-reveal {
+            position: sticky; bottom: 0; z-index: -1;
+            transform: translateY(24px); opacity: 0.9;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s;
+        }
+        .footer-reveal.is-visible { transform: translateY(0); opacity: 1; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-entrance { opacity: 1; animation: none; }
+            .section-reveal::after { display: none; }
+            .footer-reveal { transform: none; opacity: 1; transition: none; }
+        }
         
         /* Hover Effect for Cards */
         .card-hover-effect { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -107,6 +164,7 @@
         }
 
     </style>
+    <script src="scroll-animations.js" defer></script>
     <script>
         tailwind.config = {
             theme: {
