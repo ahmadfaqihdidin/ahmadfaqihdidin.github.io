@@ -13,6 +13,21 @@ document.addEventListener("DOMContentLoaded", function() {
             mNavTestimonials: "Testimonials",
             mNavPortfolio: "Portfolio",
             mNavGetInTouch: "Get in touch",
+            heroDragHint: "Drag to explore",
+            skillsTitle: "Skills & Expertise",
+            skillsSub: "A snapshot of the capabilities I bring to safety and people development.",
+            skill1: "HSE Training & Induction",
+            skill2: "Training Needs Analysis",
+            skill3: "Recruitment & Talent Management",
+            skill4: "LMS & Digital Learning",
+            skill5: "HRIS / SAP ERP",
+            skill6: "QCC & Six Sigma",
+            impactTitle: "Impact in 3D",
+            impactSub: "Drag the chart to rotate it and hover the bars to explore the numbers behind the work.",
+            legend1: "Competency Gap Reduction",
+            legend2: "Fuel Savings (HDT)",
+            legend3: "YLP Graduates",
+            legend4: "Training Satisfaction",
             heroBgText: "SAFETY",
             heroTitle: "I'M<br>AHMAD",
             heroBtnCv: "Download CV",
@@ -86,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
             cert5Title: "Human Resources Staff",
             cert5Issuer: "BNSP (11/2021 - 11/2024)",
             contactTitle: "Let's Build Something Amazing Together",
+            contactLocationNote: "Based in Semarang, Indonesia — open to opportunities worldwide.",
             contactBtn: "Start a Conversation",
             footerRole: "HSE & Training Professional",
             footerLinksTitle: "Quick Links",
@@ -112,6 +128,21 @@ document.addEventListener("DOMContentLoaded", function() {
             mNavTestimonials: "Testimoni",
             mNavPortfolio: "Portofolio",
             mNavGetInTouch: "Hubungi Saya",
+            heroDragHint: "Seret untuk menjelajah",
+            skillsTitle: "Keahlian & Kompetensi",
+            skillsSub: "Sekilas kemampuan yang saya bawa untuk keselamatan dan pengembangan manusia.",
+            skill1: "Pelatihan & Induksi K3",
+            skill2: "Analisis Kebutuhan Pelatihan",
+            skill3: "Rekrutmen & Manajemen Talenta",
+            skill4: "LMS & Pembelajaran Digital",
+            skill5: "HRIS / SAP ERP",
+            skill6: "GKM & Six Sigma",
+            impactTitle: "Dampak dalam 3D",
+            impactSub: "Seret grafik untuk memutarnya dan arahkan kursor ke batang untuk melihat angka di baliknya.",
+            legend1: "Penurunan Kesenjangan Kompetensi",
+            legend2: "Penghematan BBM (HDT)",
+            legend3: "Lulusan YLP",
+            legend4: "Kepuasan Pelatihan",
             heroBgText: "K3",
             heroTitle: "SAYA<br>AHMAD",
             heroBtnCv: "Unduh CV",
@@ -185,6 +216,7 @@ document.addEventListener("DOMContentLoaded", function() {
             cert5Title: "Staf Sumber Daya Manusia",
             cert5Issuer: "BNSP (11/2021 - 11/2024)",
             contactTitle: "Mari Bangun Sesuatu yang Luar Biasa Bersama",
+            contactLocationNote: "Berbasis di Semarang, Indonesia — terbuka untuk peluang di seluruh dunia.",
             contactBtn: "Mulai Percakapan",
             footerRole: "Profesional K3 & Pelatihan",
             footerLinksTitle: "Tautan Cepat",
@@ -211,6 +243,9 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
         window.currentLang = lang;
+        // Dispatch on both targets so listeners attached to window or document both receive it
+        window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
+        document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
         document.getElementById('translate-button').textContent = lang === 'en' ? 'ID' : 'EN';
         document.getElementById('translate-button-mobile').textContent = lang === 'en' ? 'ID' : 'EN';
     }
