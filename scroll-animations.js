@@ -1,85 +1,153 @@
-/* Scroll transition & interactivity enhancements (self-contained). */
+/**
+ * ============================================================================
+ * CINEMATIC PARALLAX & 3D INTERACTION ENGINE
+ * Ahmad Faqih Imaduddin - HSE & Training Professional Portfolio
+ * ============================================================================
+ */
+
 (function () {
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function () {
-        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-        /* 1) Hero entrance stagger (plays once on load) */
-        if (!reducedMotion) {
-            var heroOrder = [
-                document.querySelector('main h1'),
-                document.querySelector('main .order-first'),
-                document.querySelector('[data-lang-key="heroSubGreeting"]'),
-                document.querySelector('[data-lang-key="heroRole"]'),
-                document.querySelector('[data-lang-key="heroGreeting"]')
-            ];
-            heroOrder.forEach(function (el, i) {
-                if (!el) return;
-                el.style.setProperty('--hero-delay', (i * 130) + 'ms');
-                el.classList.add('hero-entrance');
-            });
+        // ========================================================================
+        // 1. SCROLL PARALLAX ENGINE (Multi-Layer Depth via RAF & Lerp)
+        // ========================================================================
+        const heroSection = document.querySelector('.hero-gradient');
+        const heroWatermark = document.getElementById('hero-watermark') || document.querySelector('.hero-gradient .absolute.inset-x-0 span');
+        const heroPortrait = document.getElementById('hero-portrait-img') || document.querySelector('.hero-gradient img');
+        const heroCard = document.getElementById('hero-status-card');
+
+        let currentScrollY = window.scrollY || 0;
+        let targetScrollY = currentScrollY;
+        let isHeroVisible = true;
+
+        if (heroSection) {
+            const heroObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    isHeroVisible = entry.isIntersecting;
+                });
+            }, { threshold: 0 });
+            heroObserver.observe(heroSection);
         }
 
-        /* 2) Own reveal observer for enhancements (titles, footer) */
-        var revealObserver = new IntersectionObserver(function (entries, obs) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    obs.unobserve(entry.target);
+        function updateScrollParallax() {
+            if (!prefersReducedMotion && isHeroVisible) {
+                targetScrollY = window.scrollY || document.documentElement.scrollTop;
+                // Linear interpolation for silky smooth movement
+                currentScrollY += (targetScrollY - currentScrollY) * 0.12;
+
+                const scrollOffset = currentScrollY;
+
+                // Hero Watermark typography drifts downward with deep background speed
+                if (heroWatermark) {
+                    heroWatermark.style.transform = `translate3d(0, ${scrollOffset * 0.35}px, 0)`;
                 }
-            });
-        }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
-        /* Section titles get an accent underline sweep when they reveal */
-        document.querySelectorAll('main h2.fade-in-up, #contact h2').forEach(function (h2) {
-            h2.classList.add('section-reveal');
-            revealObserver.observe(h2);
-        });
+                // Hero Portrait moves slightly upward for multi-plane camera depth
+                if (heroPortrait && scrollOffset < 800) {
+                    heroPortrait.style.transform = `translate3d(0, ${scrollOffset * -0.08}px, 0)`;
+                }
 
-        /* 3) Cursor-following glow + shine sweep on cards */
-        document.querySelectorAll('.card-hover-effect').forEach(function (card) {
-            card.classList.add('glow-hover');
-        });
-        document.querySelectorAll('.project-card').forEach(function (card) {
-            card.classList.add('shine');
-        });
-        document.querySelectorAll('.glow-hover').forEach(function (card) {
-            card.addEventListener('pointermove', function (e) {
-                var r = card.getBoundingClientRect();
-                card.style.setProperty('--gx', (e.clientX - r.left) + 'px');
-                card.style.setProperty('--gy', (e.clientY - r.top) + 'px');
-            });
-        });
+                // Floating Hero pill card
+                if (heroCard && scrollOffset < 800) {
+                    heroCard.style.transform = `translate3d(0, ${scrollOffset * -0.14}px, 0)`;
+                }
+            }
 
-        /* 4) Footer reveal: page bottom slides up over the footer */
-        var footer = document.querySelector('footer');
-        var main = document.querySelector('main');
-        if (footer && main) {
-            main.classList.add('relative', 'z-10');
-            footer.classList.add('footer-reveal');
-            revealObserver.observe(footer);
+            requestAnimationFrame(updateScrollParallax);
         }
 
-        /* 5) Navbar elevates once the page is scrolled */
-        var header = document.querySelector('header');
+        requestAnimationFrame(updateScrollParallax);
+
+        // ========================================================================
+        // 2. INTERACTIVE 3D MOUSE PARALLAX (Hero Section Depth)
+        // ========================================================================
+        if (!prefersReducedMotion && !isTouchDevice && heroSection) {
+            let mouseX = 0, mouseY = 0;
+            let targetMouseX = 0, targetMouseY = 0;
+
+            heroSection.addEventListener('mousemove', (e) => {
+                const rect = heroSection.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                targetMouseX = x * 30; // Max tilt / translation pixels
+                targetMouseY = y * 30;
+            });
+
+            heroSection.addEventListener('mouseleave', () => {
+                targetMouseX = 0;
+                targetMouseY = 0;
+            });
+
+            function renderMouseParallax() {
+                if (isHeroVisible) {
+                    mouseX += (targetMouseX - mouseX) * 0.08;
+                    mouseY += (targetMouseY - mouseY) * 0.08;
+
+                    if (heroWatermark) {
+                        heroWatermark.style.translate = `${-mouseX * 0.6}px ${-mouseY * 0.6}px`;
+                    }
+                    if (heroPortrait) {
+                        heroPortrait.style.translate = `${mouseX * 0.5}px ${mouseY * 0.5}px`;
+                    }
+                }
+                requestAnimationFrame(renderMouseParallax);
+            }
+
+            requestAnimationFrame(renderMouseParallax);
+        }
+
+        // ========================================================================
+        // 3. 3D CARD TILT & SPECULAR GLOW SHINE (Interactive Cards)
+        // ========================================================================
+        const interactiveCards = document.querySelectorAll('.project-card, .card-hover-effect, #about-photo-card');
+
+        if (!prefersReducedMotion && !isTouchDevice) {
+            interactiveCards.forEach((card) => {
+                card.classList.add('tilt-card');
+
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = ((y - centerY) / centerY) * -6; // Max 6deg
+                    const rotateY = ((x - centerX) / centerX) * 6;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+                    card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+                    card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+                });
+            });
+        }
+
+        // ========================================================================
+        // 4. NAVBAR ELEVATION ON SCROLL
+        // ========================================================================
+        const header = document.querySelector('header');
         if (header) {
-            var onScrollHeader = function () {
-                header.classList.toggle('is-scrolled', window.scrollY > 24);
+            const onScrollHeader = () => {
+                const scrolled = window.scrollY > 20;
+                if (scrolled) {
+                    header.classList.add('shadow-md', 'bg-white/95');
+                    header.classList.remove('bg-white/90');
+                } else {
+                    header.classList.remove('shadow-md', 'bg-white/95');
+                    header.classList.add('bg-white/90');
+                }
             };
             window.addEventListener('scroll', onScrollHeader, { passive: true });
             onScrollHeader();
-        }
-
-        /* 6) Subtle parallax on the hero background text */
-        var heroBgText = document.querySelector('.hero-gradient [data-lang-key="heroBgText"]');
-        var hero = document.querySelector('.hero-gradient');
-        if (heroBgText && hero && !reducedMotion) {
-            window.addEventListener('scroll', function () {
-                if (window.scrollY < hero.offsetHeight) {
-                    heroBgText.style.transform = 'translateY(' + (window.scrollY * 0.18) + 'px)';
-                }
-            }, { passive: true });
         }
     });
 })();

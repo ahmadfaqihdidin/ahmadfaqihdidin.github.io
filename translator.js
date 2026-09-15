@@ -456,15 +456,27 @@ document.addEventListener("DOMContentLoaded", function () {
         if (indDesktop) indDesktop.textContent = lang === 'en' ? 'ID' : 'EN';
         if (indMobile) indMobile.textContent = lang === 'en' ? 'Bahasa Indonesia (ID)' : 'English (EN)';
 
+        document.querySelectorAll('.lang-indicator-compact').forEach(el => {
+            el.textContent = lang === 'en' ? 'ID' : 'EN';
+        });
+
         window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
         document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
     }
+
+    // Toggle button event bindings
+    document.querySelectorAll('.btn-translate-toggle').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(window.currentLang === 'en' ? 'id' : 'en'));
+    });
 
     const btnTranslate = document.getElementById('translate-button');
     if (btnTranslate) btnTranslate.addEventListener('click', () => setLanguage(window.currentLang === 'en' ? 'id' : 'en'));
 
     const btnTranslateMobile = document.getElementById('translate-button-mobile');
     if (btnTranslateMobile) btnTranslateMobile.addEventListener('click', () => setLanguage(window.currentLang === 'en' ? 'id' : 'en'));
+
+    const btnTranslateHeaderMobile = document.getElementById('translate-button-header-mobile');
+    if (btnTranslateHeaderMobile) btnTranslateHeaderMobile.addEventListener('click', () => setLanguage(window.currentLang === 'en' ? 'id' : 'en'));
 
     // Set initial language to English
     setLanguage('en');
