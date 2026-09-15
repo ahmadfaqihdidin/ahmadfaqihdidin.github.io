@@ -25,6 +25,40 @@
                 linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
+        /* Scroll progress bar */
+        #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 80; background: linear-gradient(90deg, #2563EB, #1E3A8A); transition: width 0.1s linear; }
+
+        /* Back to top */
+        #back-to-top { opacity: 0; pointer-events: none; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s; }
+        #back-to-top.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+        /* Typewriter */
+        .typewriter-caret { color: #2563EB; font-weight: 700; animation: caret-blink 1s steps(1) infinite; }
+        @keyframes caret-blink { 50% { opacity: 0; } }
+
+        /* Skill bars */
+        .skill-bar-fill { width: 0%; transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        /* Custom cursor */
+        #cursor-dot, #cursor-ring { position: fixed; top: 0; left: 0; z-index: 200; pointer-events: none; border-radius: 9999px; transform: translate(-100px, -100px); }
+        #cursor-dot { width: 6px; height: 6px; background: #2563EB; }
+        #cursor-ring { width: 34px; height: 34px; border: 1.5px solid rgba(37, 99, 235, 0.5); transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s; }
+        #cursor-ring.is-hover { width: 52px; height: 52px; border-color: rgba(37, 99, 235, 0.9); background: rgba(37, 99, 235, 0.08); }
+        body.custom-cursor * { cursor: none !important; }
+        @media (hover: none) { #cursor-dot, #cursor-ring { display: none; } }
+
+        /* Impact 3D chart */
+        #impact-canvas { touch-action: pan-y !important; }
+        #globe-canvas { touch-action: pan-y !important; }
+        .impact-bar-label { position: absolute; transform: translate(-50%, -50%); background: #fff; color: #1E3A8A; font-weight: 800; font-size: 0.8rem; padding: 0.25rem 0.6rem; border-radius: 9999px; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15); border: 1px solid rgba(37, 99, 235, 0.2); pointer-events: none; opacity: 0; transition: opacity 0.4s; white-space: nowrap; z-index: 5; }
+        .impact-bar-label.is-visible { opacity: 1; }
+        .impact-legend-chip { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 9999px; background: #fff; border: 1px solid #e5e7eb; font-weight: 600; font-size: 0.875rem; color: #4B5563; transition: all 0.3s; cursor: pointer; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); }
+        .impact-legend-chip:hover { border-color: #2563EB; color: #2563EB; transform: translateY(-2px); box-shadow: 0 8px 16px rgba(37, 99, 235, 0.12); }
+
+        /* Hero hint pill */
+        .hero-hint { animation: hint-float 3s ease-in-out infinite; }
+        @keyframes hint-float { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -6px); } }
+
         /* Animation Definitions */
         .slide-in-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .slide-in-right { opacity: 0; transform: translateX(30px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -91,6 +125,9 @@
     </script>
 </head>
 <body class="bg-white">
+    <div id="scroll-progress"></div>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
 
     <!-- Header / Navbar -->
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50">
@@ -135,6 +172,11 @@
     <main>
         <!-- Hero Section -->
         <section class="hero-gradient relative overflow-hidden">
+            <canvas id="hero-canvas" class="absolute inset-0 w-full h-full z-0 touch-pan-y" aria-hidden="true"></canvas>
+            <div class="hero-hint hidden md:flex absolute bottom-8 left-1/2 z-10 items-center gap-2 px-4 py-2 rounded-full bg-white/70 backdrop-blur border border-gray-200 text-sm font-medium text-brand-text select-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                <span data-lang-key="heroDragHint">Drag to explore</span>
+            </div>
             <div class="container mx-auto px-6 pt-24 pb-24">
                 <div class="relative grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-center">
                     <!-- Background Text -->
@@ -153,6 +195,10 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         </a>
+                        <div class="mt-8 flex items-center justify-center md:justify-start h-8">
+                            <span id="typewriter" class="text-lg md:text-xl font-bold text-brand-blue" data-strings-en='["HSE Trainer","LMS Builder","HR Generalist","Safety Promoter"]' data-strings-id='["Trainer HSE","Pembangun LMS","Generalis HR","Promotor Keselamatan"]'></span>
+                            <span class="typewriter-caret ml-0.5 text-xl">▌</span>
+                        </div>
                         <p class="text-brand-text mt-24 md:mt-32 text-base max-w-xs mx-auto md:mx-0" data-lang-key="heroGreeting">Hello, I'm Ahmad Faqih, an HSE & Training Professional passionate about creating meaningful safety cultures.</p>
                     </div>
 
@@ -206,20 +252,86 @@
             <div class="container mx-auto px-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center fade-in-up">
                     <div>
-                        <p class="text-4xl lg:text-5xl font-extrabold text-brand-heading" data-lang-key="stat1Value">4+</p>
+                        <p class="text-4xl lg:text-5xl font-extrabold text-brand-heading stat-value" data-target="4" data-suffix="+">4+</p>
                         <p class="text-brand-text mt-2 font-medium" data-lang-key="stat1Label">Years Experience</p>
                     </div>
                     <div>
-                        <p class="text-4xl lg:text-5xl font-extrabold text-brand-heading" data-lang-key="stat2Value">15+</p>
+                        <p class="text-4xl lg:text-5xl font-extrabold text-brand-heading stat-value" data-target="15" data-suffix="+">15+</p>
                         <p class="text-brand-text mt-2 font-medium" data-lang-key="stat2Label">Key Initiatives</p>
                     </div>
                     <div>
-                        <p class="text-4xl lg:text-5xl font-extrabold text-brand-heading" data-lang-key="stat3Value">50%+</p>
+                        <p class="text-4xl lg:text-5xl font-extrabold text-brand-heading stat-value" data-target="50" data-suffix="%+">50%+</p>
                         <p class="text-brand-text mt-2 font-medium" data-lang-key="stat3Label">Gap Reduction</p>
                     </div>
                     <div>
-                        <p class="text-4xl lg:text-5xl font-extrabold text-brand-heading" data-lang-key="stat4Value">15%</p>
+                        <p class="text-4xl lg:text-5xl font-extrabold text-brand-heading stat-value" data-target="15" data-suffix="%">15%</p>
                         <p class="text-brand-text mt-2 font-medium" data-lang-key="stat4Label">Fuel Saved</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-heading fade-in-up" data-lang-key="skillsTitle">Skills & Expertise</h2>
+                    <p class="text-brand-text mt-4 text-lg max-w-3xl mx-auto fade-in-up" data-lang-key="skillsSub">A snapshot of the capabilities I bring to safety and people development.</p>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-6 stagger-children">
+                    <div class="fade-in-up">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-brand-heading" data-lang-key="skill1">HSE Training & Induction</span>
+                            <span class="text-sm font-bold text-brand-blue">95%</span>
+                        </div>
+                        <div class="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-brand-blue to-brand-dark-blue" data-percent="95"></div>
+                        </div>
+                    </div>
+                    <div class="fade-in-up">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-brand-heading" data-lang-key="skill2">Training Needs Analysis</span>
+                            <span class="text-sm font-bold text-brand-blue">90%</span>
+                        </div>
+                        <div class="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-brand-blue to-brand-dark-blue" data-percent="90"></div>
+                        </div>
+                    </div>
+                    <div class="fade-in-up">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-brand-heading" data-lang-key="skill3">Recruitment & Talent Management</span>
+                            <span class="text-sm font-bold text-brand-blue">88%</span>
+                        </div>
+                        <div class="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-brand-blue to-brand-dark-blue" data-percent="88"></div>
+                        </div>
+                    </div>
+                    <div class="fade-in-up">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-brand-heading" data-lang-key="skill4">LMS & Digital Learning</span>
+                            <span class="text-sm font-bold text-brand-blue">85%</span>
+                        </div>
+                        <div class="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-brand-blue to-brand-dark-blue" data-percent="85"></div>
+                        </div>
+                    </div>
+                    <div class="fade-in-up">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-brand-heading" data-lang-key="skill5">HRIS / SAP ERP</span>
+                            <span class="text-sm font-bold text-brand-blue">80%</span>
+                        </div>
+                        <div class="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-brand-blue to-brand-dark-blue" data-percent="80"></div>
+                        </div>
+                    </div>
+                    <div class="fade-in-up">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-brand-heading" data-lang-key="skill6">QCC & Six Sigma</span>
+                            <span class="text-sm font-bold text-brand-blue">75%</span>
+                        </div>
+                        <div class="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-brand-blue to-brand-dark-blue" data-percent="75"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -377,6 +489,26 @@
             </div>
         </section>
 
+        <!-- Interactive Impact (Three.js) -->
+        <section id="impact" class="py-16 md:py-24 bg-white overflow-hidden">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-heading fade-in-up" data-lang-key="impactTitle">Impact in 3D</h2>
+                    <p class="text-brand-text mt-4 text-lg max-w-3xl mx-auto fade-in-up" data-lang-key="impactSub">Drag the chart to rotate it and hover the bars to explore the numbers behind the work.</p>
+                </div>
+                <div id="impact-canvas-wrap" class="relative rounded-3xl bg-gradient-to-b from-brand-light-blue to-white border border-blue-100 shadow-inner overflow-hidden fade-in-up" style="height:480px;">
+                    <canvas id="impact-canvas" class="absolute inset-0 w-full h-full block"></canvas>
+                    <div id="impact-tooltip" class="absolute z-10 pointer-events-none opacity-0 transition-opacity duration-300 bg-brand-heading text-white text-sm font-semibold px-3.5 py-1.5 rounded-full shadow-lg whitespace-nowrap"></div>
+                </div>
+                <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+                    <button class="impact-legend-chip" data-bar="0"><span class="w-3 h-3 rounded-full inline-block" style="background:#2563EB;"></span><span data-lang-key="legend1">Competency Gap Reduction</span></button>
+                    <button class="impact-legend-chip" data-bar="1"><span class="w-3 h-3 rounded-full inline-block" style="background:#F59E0B;"></span><span data-lang-key="legend2">Fuel Savings (HDT)</span></button>
+                    <button class="impact-legend-chip" data-bar="2"><span class="w-3 h-3 rounded-full inline-block" style="background:#10B981;"></span><span data-lang-key="legend3">YLP Graduates</span></button>
+                    <button class="impact-legend-chip" data-bar="3"><span class="w-3 h-3 rounded-full inline-block" style="background:#8B5CF6;"></span><span data-lang-key="legend4">Training Satisfaction</span></button>
+                </div>
+            </div>
+        </section>
+
         <!-- Portfolio Section -->
         <section id="portfolio" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
@@ -471,16 +603,20 @@
             </div>
         </section>
 
+        <!-- Contact (Three.js globe) -->
         <section id="contact" class="bg-brand-gray">
             <div class="container mx-auto px-6 py-16 md:py-24">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div class="fade-in-up">
                         <h2 class="text-3xl md:text-4xl font-bold text-brand-heading" data-lang-key="contactTitle">Let's Build Something Amazing Together</h2>
+                        <p class="text-brand-text mt-4 text-lg" data-lang-key="contactLocationNote">Based in Semarang, Indonesia — open to opportunities worldwide.</p>
                         <a href="mailto:ahmadfaqihdidin@gmail.com" class="mt-8 bg-brand-blue text-white px-8 py-3 rounded-full font-semibold hover:bg-brand-dark-blue transition inline-block shadow-lg transform hover:-translate-y-1" data-lang-key="contactBtn">Start a Conversation</a>
                     </div>
-                    <div class="fade-in-up" style="transition-delay: 200ms;">
-                        <img src="images/faqih.png" alt="Ahmad Faqih smiling, ready for collaboration" class="rounded-2xl shadow-xl w-full max-w-md mx-auto" loading="lazy">
+                    <div id="globe-wrap" class="relative h-[420px] fade-in-up cursor-grab active:cursor-grabbing" style="transition-delay: 200ms;">
+                        <canvas id="globe-canvas" class="absolute inset-0 w-full h-full block" aria-label="Rotating globe showing Semarang, Indonesia" role="img"></canvas>
+                        <img id="faqih-photo" src="images/faqih.png" alt="Ahmad Faqih smiling, ready for collaboration" class="hidden absolute inset-0 w-full h-full object-cover rounded-2xl shadow-xl" loading="lazy">
                     </div>
+                    <script type="module" src="globe.js"></script>
                 </div>
             </div>
         </section>
@@ -544,6 +680,433 @@
         </div>
     </div>
     
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            /* Scroll progress + back to top */
+            const progressBar = document.getElementById('scroll-progress');
+            const backToTop = document.getElementById('back-to-top');
+            function onScroll() {
+                const scrollTop = window.scrollY;
+                const height = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = height > 0 ? (scrollTop / height) * 100 : 0;
+                if (progressBar) progressBar.style.width = progress + '%';
+                if (backToTop) backToTop.classList.toggle('is-visible', scrollTop > 600);
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+            if (backToTop) backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+            /* Animated counters */
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    counterObserver.unobserve(el);
+                    if (prefersReduced) return;
+                    const target = parseFloat(el.dataset.target) || 0;
+                    const suffix = el.dataset.suffix || '';
+                    const duration = 1500;
+                    const start = performance.now();
+                    (function tick(now) {
+                        const t = Math.min((now - start) / duration, 1);
+                        const eased = 1 - Math.pow(1 - t, 3);
+                        el.textContent = Math.round(target * eased) + suffix;
+                        if (t < 1) requestAnimationFrame(tick);
+                    })(start);
+                });
+            }, { threshold: 0.4 });
+            document.querySelectorAll('.stat-value').forEach(el => counterObserver.observe(el));
+
+            /* Skill bars */
+            const skillObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    skillObserver.unobserve(el);
+                    requestAnimationFrame(() => { el.style.width = el.dataset.percent + '%'; });
+                });
+            }, { threshold: 0.4 });
+            document.querySelectorAll('.skill-bar-fill').forEach(el => skillObserver.observe(el));
+
+            /* Typewriter roles */
+            const typewriterEl = document.getElementById('typewriter');
+            if (typewriterEl && !prefersReduced) {
+                let strings = [];
+                let strIndex = 0, charIndex = 0, deleting = false;
+                function loadStrings() {
+                    const attr = window.currentLang === 'id' ? 'stringsId' : 'stringsEn';
+                    try { strings = JSON.parse(typewriterEl.dataset[attr]) || []; } catch (e) { strings = []; }
+                    strIndex = 0; charIndex = 0; deleting = false;
+                }
+                loadStrings();
+                window.addEventListener('langchange', loadStrings);
+                (function typeLoop() {
+                    if (!strings.length) return;
+                    const current = strings[strIndex];
+                    let nextDelay = 90;
+                    if (!deleting) {
+                        charIndex++;
+                        typewriterEl.textContent = current.slice(0, charIndex);
+                        if (charIndex >= current.length) { deleting = true; nextDelay = 2000; }
+                    } else {
+                        charIndex--;
+                        typewriterEl.textContent = current.slice(0, charIndex);
+                        if (charIndex <= 0) { deleting = false; strIndex = (strIndex + 1) % strings.length; nextDelay = 400; }
+                    }
+                    setTimeout(typeLoop, deleting && nextDelay === 90 ? 40 : nextDelay);
+                })();
+            }
+
+            /* Active nav highlighting */
+            const navLinks = document.querySelectorAll('header nav a[href^="#"]');
+            const navObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        const active = link.getAttribute('href') === '#' + id;
+                        link.classList.toggle('text-brand-blue', active);
+                        link.classList.toggle('text-brand-text', !active);
+                    });
+                });
+            }, { rootMargin: '-45% 0px -50% 0px' });
+            document.querySelectorAll('section[id]').forEach(s => navObserver.observe(s));
+
+            /* Custom cursor (fine pointers only) */
+            if (window.matchMedia('(pointer: fine)').matches) {
+                document.body.classList.add('custom-cursor');
+                const dot = document.getElementById('cursor-dot');
+                const ring = document.getElementById('cursor-ring');
+                let mx = -100, my = -100, rx = -100, ry = -100;
+                window.addEventListener('mousemove', (e) => {
+                    mx = e.clientX; my = e.clientY;
+                    dot.style.transform = 'translate(' + mx + 'px, ' + my + 'px) translate(-50%, -50%)';
+                });
+                (function ringLoop() {
+                    rx += (mx - rx) * 0.16; ry += (my - ry) * 0.16;
+                    ring.style.transform = 'translate(' + rx + 'px, ' + ry + 'px) translate(-50%, -50%)';
+                    requestAnimationFrame(ringLoop);
+                })();
+                document.querySelectorAll('a, button, .project-card, .impact-legend-chip').forEach(el => {
+                    el.addEventListener('mouseenter', () => ring.classList.add('is-hover'));
+                    el.addEventListener('mouseleave', () => ring.classList.remove('is-hover'));
+                });
+            }
+        });
+    </script>
+
+    <button id="back-to-top" aria-label="Back to top" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-brand-blue text-white shadow-lg flex items-center justify-center hover:bg-brand-dark-blue transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+    </button>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* ============ HERO: interactive particle field ============ */
+        (function heroScene() {
+            const canvas = document.getElementById('hero-canvas');
+            if (!canvas) return;
+            let renderer;
+            try {
+                renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            } catch (e) { canvas.style.display = 'none'; return; }
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+            camera.position.set(0, 0, 14);
+
+            const world = new THREE.Group();
+            scene.add(world);
+
+            const COUNT = 600;
+            const positions = new Float32Array(COUNT * 3);
+            const colors = new Float32Array(COUNT * 3);
+            const seeds = [];
+            const cBlue = new THREE.Color('#2563EB');
+            const cNavy = new THREE.Color('#1E3A8A');
+            const cAmber = new THREE.Color('#F59E0B');
+            for (let i = 0; i < COUNT; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 30;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 16;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 12;
+                const c = Math.random() < 0.75 ? cBlue : (Math.random() < 0.5 ? cNavy : cAmber);
+                colors[i * 3] = c.r; colors[i * 3 + 1] = c.g; colors[i * 3 + 2] = c.b;
+                seeds.push({ baseY: positions[i * 3 + 1], speed: 0.3 + Math.random() * 0.6, phase: Math.random() * Math.PI * 2 });
+            }
+            const pGeo = new THREE.BufferGeometry();
+            pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            pGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            world.add(new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.07, vertexColors: true, transparent: true, opacity: 0.85, depthWrite: false })));
+
+            const shapes = [];
+            function addShape(geo, color, pos, scale, rotSpeed) {
+                const mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.45 }));
+                mesh.position.set(pos[0], pos[1], pos[2]);
+                mesh.scale.setScalar(scale);
+                mesh.userData.rotSpeed = rotSpeed;
+                world.add(mesh); shapes.push(mesh);
+            }
+            addShape(new THREE.IcosahedronGeometry(1.6, 0), '#2563EB', [5.2, 1.6, -2], 1, 0.003);
+            addShape(new THREE.TorusGeometry(1.1, 0.35, 12, 32), '#F59E0B', [-5.6, -1.8, -1], 0.8, -0.004);
+            addShape(new THREE.OctahedronGeometry(1.2, 0), '#1E3A8A', [-4.6, 2.6, -3], 0.9, 0.005);
+            addShape(new THREE.TorusKnotGeometry(0.8, 0.25, 64, 10), '#2563EB', [4.8, -2.4, -3], 0.7, -0.003);
+
+            let mouseX = 0, mouseY = 0, dragging = false, lastX = 0;
+            window.addEventListener('pointermove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+                if (dragging) {
+                    world.rotation.y += (e.clientX - lastX) * 0.004;
+                    lastX = e.clientX;
+                }
+            });
+            canvas.addEventListener('pointerdown', (e) => { dragging = true; lastX = e.clientX; });
+            window.addEventListener('pointerup', () => { dragging = false; });
+            canvas.style.cursor = 'grab';
+
+            function resize() {
+                const w = canvas.clientWidth || canvas.parentElement.clientWidth;
+                const h = canvas.clientHeight || canvas.parentElement.clientHeight;
+                renderer.setSize(w, h, false);
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let visible = true;
+            new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; }, { threshold: 0 }).observe(canvas);
+
+            const clock = new THREE.Clock();
+            const posAttr = pGeo.attributes.position;
+            (function animate() {
+                requestAnimationFrame(animate);
+                if (!visible) return;
+                const t = clock.getElapsedTime();
+                for (let i = 0; i < COUNT; i++) {
+                    const s = seeds[i];
+                    posAttr.setY(i, s.baseY + Math.sin(t * s.speed + s.phase) * 0.4);
+                }
+                posAttr.needsUpdate = true;
+                shapes.forEach(sh => {
+                    sh.rotation.x += sh.userData.rotSpeed;
+                    sh.rotation.y += sh.userData.rotSpeed * 1.4;
+                });
+                if (!reduced) {
+                    world.rotation.y += 0.0006;
+                    camera.position.x += ((mouseX * 0.8) - camera.position.x) * 0.03;
+                    camera.position.y += ((-mouseY * 0.5) - camera.position.y) * 0.03;
+                    camera.lookAt(0, 0, 0);
+                }
+                renderer.render(scene, camera);
+            })();
+        })();
+
+        /* ============ 3D IMPACT CHART ============ */
+        (function impactChart() {
+            const wrap = document.getElementById('impact-canvas-wrap');
+            const canvas = document.getElementById('impact-canvas');
+            if (!wrap || !canvas) return;
+            let renderer;
+            try {
+                renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            } catch (e) { wrap.style.display = 'none'; return; }
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+            camera.position.set(0, 4.6, 11.5);
+
+            const controls = new OrbitControls(camera, canvas);
+            controls.target.set(0, 1.7, 0);
+            controls.enableZoom = false;
+            controls.enablePan = false;
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.06;
+            controls.autoRotate = !reduced;
+            controls.autoRotateSpeed = 0.8;
+            controls.minPolarAngle = 0.9;
+            controls.maxPolarAngle = 1.45;
+            let idleTimer;
+            controls.addEventListener('start', () => { controls.autoRotate = false; clearTimeout(idleTimer); });
+            controls.addEventListener('end', () => { idleTimer = setTimeout(() => { if (!reduced) controls.autoRotate = true; }, 2500); });
+
+            scene.add(new THREE.HemisphereLight(0xffffff, 0xdbe6ff, 1.1));
+            const dir = new THREE.DirectionalLight(0xffffff, 1.1); dir.position.set(6, 10, 4); scene.add(dir);
+            const dir2 = new THREE.DirectionalLight(0x93b4ff, 0.5); dir2.position.set(-6, 6, -4); scene.add(dir2);
+
+            const ground = new THREE.Mesh(new THREE.CircleGeometry(8, 64), new THREE.MeshBasicMaterial({ color: 0xeef4ff, transparent: true, opacity: 0.6 }));
+            ground.rotation.x = -Math.PI / 2; ground.position.y = -0.01; scene.add(ground);
+
+            const BAR_DATA = [
+                { key: 'legend1', color: '#2563EB', value01: 0.85, valueLabel: '-50%' },
+                { key: 'legend2', color: '#F59E0B', value01: 0.62, valueLabel: '-15%' },
+                { key: 'legend3', color: '#10B981', value01: 0.5, valueLabel: '24' },
+                { key: 'legend4', color: '#8B5CF6', value01: 0.95, valueLabel: '98%' }
+            ];
+            const SPACING = 2.7;
+            const meshList = [];
+            const bars = BAR_DATA.map((d, i) => {
+                const H = 1.4 + d.value01 * 4.6;
+                const group = new THREE.Group();
+                group.position.x = (i - (BAR_DATA.length - 1) / 2) * SPACING;
+                const mat = new THREE.MeshPhysicalMaterial({ color: new THREE.Color(d.color), roughness: 0.22, metalness: 0.08, clearcoat: 1, clearcoatRoughness: 0.25 });
+                const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.78, 0.78, Math.max(H - 1.5, 0.05), 48), mat);
+                cyl.position.y = H / 2; cyl.userData.barIndex = i;
+                const cap = new THREE.Mesh(new THREE.CapsuleGeometry(0.78, Math.max(H - 1.5, 0.05), 8, 32), mat);
+                cap.position.y = H / 2; cap.userData.barIndex = i;
+                const ring = new THREE.Mesh(new THREE.TorusGeometry(1.05, 0.035, 12, 48), new THREE.MeshBasicMaterial({ color: new THREE.Color(d.color), transparent: true, opacity: 0.55 }));
+                ring.rotation.x = Math.PI / 2; ring.position.y = 0.02;
+                group.add(cyl, cap, ring);
+                group.scale.y = 0.001;
+                group.userData = { H, mat, baseColor: new THREE.Color(d.color), labeled: false };
+                meshList.push(cyl, cap);
+                scene.add(group);
+                return group;
+            });
+
+            const labelEls = bars.map((bar, i) => {
+                const el = document.createElement('div');
+                el.className = 'impact-bar-label';
+                el.textContent = BAR_DATA[i].valueLabel;
+                wrap.appendChild(el);
+                return el;
+            });
+
+            const tooltip = document.getElementById('impact-tooltip');
+            function barName(i) {
+                const chip = document.querySelector('.impact-legend-chip[data-bar="' + i + '"] span:last-child');
+                return chip ? chip.textContent.trim() : '';
+            }
+            function showTooltip(text, x, y) {
+                tooltip.textContent = text;
+                tooltip.style.left = Math.min(Math.max(x - 20, 12), Math.max(wrap.clientWidth - tooltip.offsetWidth - 12, 12)) + 'px';
+                tooltip.style.top = Math.max(y - 48, 8) + 'px';
+                tooltip.style.opacity = '1';
+            }
+            function hideTooltip() { tooltip.style.opacity = '0'; }
+
+            const raycaster = new THREE.Raycaster();
+            const pointer = new THREE.Vector2();
+            let hovered = -1;
+            function setHover(i) {
+                if (hovered === i) return;
+                if (hovered >= 0) bars[hovered].userData.mat.emissive.setHex(0x000000);
+                hovered = i;
+                if (i >= 0) bars[i].userData.mat.emissive.copy(bars[i].userData.baseColor).multiplyScalar(0.35);
+                canvas.style.cursor = i >= 0 ? 'pointer' : 'grab';
+            }
+            function wrapPoint(e) {
+                const rect = wrap.getBoundingClientRect();
+                return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            }
+            canvas.addEventListener('pointermove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                raycaster.setFromCamera(pointer, camera);
+                const hits = raycaster.intersectObjects(meshList, false);
+                const idx = hits.length ? hits[0].object.userData.barIndex : -1;
+                setHover(idx);
+                if (idx >= 0) {
+                    const p = wrapPoint(e);
+                    showTooltip(barName(idx) + '  \u00b7  ' + BAR_DATA[idx].valueLabel, p.x, p.y);
+                } else hideTooltip();
+            });
+            canvas.addEventListener('pointerleave', () => { setHover(-1); hideTooltip(); });
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                raycaster.setFromCamera(pointer, camera);
+                const hits = raycaster.intersectObjects(meshList, false);
+                if (hits.length) {
+                    const i = hits[0].object.userData.barIndex;
+                    bars[i].userData.pulseT = 0;
+                }
+            });
+            document.querySelectorAll('.impact-legend-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const i = parseInt(chip.dataset.bar, 10);
+                    bars[i].userData.pulseT = 0;
+                    const p = toScreen(bars[i].position.x, bars[i].userData.H * bars[i].scale.y + 0.6, bars[i].position.z);
+                    showTooltip(barName(i) + '  \u00b7  ' + BAR_DATA[i].valueLabel, p.x, p.y);
+                    setTimeout(hideTooltip, 1800);
+                });
+            });
+
+            const v = new THREE.Vector3();
+            function toScreen(x, y, z) {
+                v.set(x, y, z).project(camera);
+                return { x: (v.x * 0.5 + 0.5) * wrap.clientWidth, y: (-v.y * 0.5 + 0.5) * wrap.clientHeight };
+            }
+
+            function resize() {
+                const w = wrap.clientWidth, h = wrap.clientHeight;
+                renderer.setSize(w, h, false);
+                camera.aspect = w / h;
+                camera.position.z = camera.aspect < 0.9 ? 17 : 11.5;
+                camera.updateProjectionMatrix();
+            }
+            resize();
+            if (window.ResizeObserver) new ResizeObserver(resize).observe(wrap); else window.addEventListener('resize', resize);
+
+            let visible = false, started = false, growthStart = 0;
+            new IntersectionObserver((entries) => {
+                visible = entries[0].isIntersecting;
+                if (visible && !started) { started = true; growthStart = clock.elapsedTime; }
+            }, { threshold: 0.15 }).observe(wrap);
+
+            function easeOutBack(x) { const c1 = 1.70158; const c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+
+            const clock = new THREE.Clock();
+            (function animate() {
+                requestAnimationFrame(animate);
+                if (!visible) return;
+                const dt = clock.getDelta();
+                const elapsed = clock.elapsedTime;
+                controls.update();
+                bars.forEach((bar, i) => {
+                    const u = bar.userData;
+                    let s = 0.001;
+                    if (started) {
+                        const t = THREE.MathUtils.clamp((elapsed - growthStart - i * 0.12) / 0.9, 0, 1);
+                        s = t >= 1 ? 1 : Math.max(easeOutBack(t), 0.001);
+                        if (t >= 1 && !u.labeled) { u.labeled = true; labelEls[i].classList.add('is-visible'); }
+                    }
+                    if (u.pulseT !== undefined) {
+                        u.pulseT += dt;
+                        const p = Math.sin(Math.min(u.pulseT / 0.6, 1) * Math.PI);
+                        s = s * (1 + p * 0.18);
+                        if (u.pulseT >= 0.6) delete u.pulseT;
+                    }
+                    bar.scale.y = s;
+                });
+                labelEls.forEach((el, i) => {
+                    const bar = bars[i];
+                    const p = toScreen(bar.position.x, bar.userData.H * bar.scale.y + 0.5, bar.position.z);
+                    el.style.left = p.x + 'px';
+                    el.style.top = p.y + 'px';
+                });
+                renderer.render(scene, camera);
+            })();
+        })();
+    </script>
+
     <script src="translator.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
