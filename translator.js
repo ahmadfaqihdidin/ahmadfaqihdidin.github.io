@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             servicesTag: "Key Value Pillars",
             servicesTitle: "Services & Core Capabilities",
             servicesSubTitle: "Delivering structured frameworks that elevate human capabilities while enforcing bulletproof mining safety.",
-            serviceCard1Title: "HSE Training & Induction",
+            serviceCard1Title: "HSE System & Training",
             serviceCard1Desc: "Designing proprietary safety modules (JSA, HIRA-DC, Incident Investigation) and mandatory SMKP-aligned induction curriculums.",
             serviceCard2Title: "People Development",
             serviceCard2Desc: "Facilitating leadership acceleration (Young Leadership Program), succession pipelines, and continuous competency calibration.",
@@ -96,15 +96,10 @@ document.addEventListener("DOMContentLoaded", function () {
             exp2Date: "05/2024 - 12/2024",
             exp2List: `<li>Spearheaded comprehensive talent management frameworks, organizational career development, and change management.</li><li>Executed full-cycle recruitment workflows and oversaw digital pipeline transitions from screening to onboarding.</li><li>Conducted Training Needs Analysis (TNA) and delivered tailored programs to bridge workforce skill gaps.</li><li><strong>Highlight:</strong> Conceptualized and launched the 1-year "YLP - Young Leadership Program" for 24 high-caliber university graduates.</li><li><strong>Highlight:</strong> Standardized PKWT/PKWTT contracts for Fresh Graduates with 100% alignment to Indonesian labor regulations.</li>`,
 
-            exp3Title: "Human Resources Specialist",
-            exp3Company: "PT Satria Muda Prima",
-            exp3Date: "01/2023 - 06/2023",
-            exp3List: `<li>Managed end-to-end recruitment pipelines, workforce planning, psychological assessment evaluation, and interview panels.</li><li>Formulated employee onboarding journeys and executed systematic Training Needs Analysis (TNA).</li><li>Administered payroll documentation, compensation matrices, and employee KPI evaluations.</li>`,
-
-            exp4Title: "Group Leader - System & Training, People Development",
-            exp4Company: "HRGA - PT Putra Perkasa Abadi",
-            exp4Date: "03/2022 - 12/2023",
-            exp4List: `<li>Served as master trainer for company-wide QCC (Quality Control Circle) continuous improvement conventions.</li><li>Architected an internal web-based LMS complete with dynamic course modules, user accounts, and automated assessment tracking.</li><li>Formulated competency frameworks for all positions and managed orientation programs for fresh graduates and promotions.</li><li>Managed SAP/HRIS data entry, employee attendance ratios (ATR), and PPE workshop safety compliance checks.</li>`,
+            exp3Title: "Group Leader - System & Training, People Development",
+            exp3Company: "HRGA - PT Putra Perkasa Abadi",
+            exp3Date: "03/2022 - 12/2023",
+            exp3List: `<li>Served as master trainer for company-wide QCC (Quality Control Circle) continuous improvement conventions.</li><li>Architected an internal web-based LMS complete with dynamic course modules, user accounts, and automated assessment tracking.</li><li>Formulated competency frameworks for all positions and managed orientation programs for fresh graduates and promotions.</li><li>Managed SAP/HRIS data entry, employee attendance ratios (ATR), and PPE workshop safety compliance checks.</li>`,
 
             // Testimonials Section
             testiTag: "Endorsements",
@@ -286,7 +281,7 @@ document.addEventListener("DOMContentLoaded", function () {
             servicesTag: "Pilar Nilai Utama",
             servicesTitle: "Layanan & Kapabilitas Utama",
             servicesSubTitle: "Menghadirkan kerangka kerja terstruktur untuk meningkatkan kapabilitas SDM sekaligus menegakkan keselamatan tambang yang kokoh.",
-            serviceCard1Title: "Pelatihan & Induksi HSE",
+            serviceCard1Title: "Sistem & Pelatihan HSE",
             serviceCard1Desc: "Menyusun modul internal (JSA, HIRA-DC, Investigasi Insiden) dan kurikulum induksi keselamatan kerja berbasis SMKP.",
             serviceCard2Title: "Pengembangan SDM",
             serviceCard2Desc: "Memfasilitasi akselerasi kepemimpinan (Young Leadership Program), jalur suksesi, dan kalibrasi kompetensi berkelanjutan.",
@@ -310,15 +305,10 @@ document.addEventListener("DOMContentLoaded", function () {
             exp2Date: "05/2024 - 12/2024",
             exp2List: `<li>Memimpin strategi manajemen talenta, jalur kepemimpinan, dan penyusunan sasaran kinerja organisasi.</li><li>Mengelola rekrutmen end-to-end dan memimpin transisi digitalisasi alur kerja dari penyaringan hingga orientasi.</li><li>Melakukan Analisis Kebutuhan Pelatihan (TNA) dan menyusun program terfokus guna menutup kesenjangan keahlian.</li><li><strong>Pencapaian:</strong> Merancang dan meluncurkan "YLP - Program Kepemimpinan Muda" 1 tahun bagi 24 lulusan universitas terkemuka.</li><li><strong>Pencapaian:</strong> Menstandarisasi kontrak kerja PKWT/PKWTT bagi Fresh Graduate selaras 100% dengan regulasi ketenagakerjaan.</li>`,
 
-            exp3Title: "Spesialis Sumber Daya Manusia (HR)",
-            exp3Company: "PT Satria Muda Prima",
-            exp3Date: "01/2023 - 06/2023",
-            exp3List: `<li>Mengelola jalur rekrutmen end-to-end, perencanaan tenaga kerja, evaluasi psikotes, dan panel wawancara kerja.</li><li>Menyusun alur orientasi karyawan baru dan melakukan Analisis Kebutuhan Pelatihan (TNA) secara sistematis.</li><li>Mengelola dokumentasi penggajian, matriks kompensasi, dan evaluasi KPI kinerja karyawan.</li>`,
-
-            exp4Title: "Group Leader - System & Training, People Development",
-            exp4Company: "HRGA - PT Putra Perkasa Abadi",
-            exp4Date: "03/2022 - 12/2023",
-            exp4List: `<li>Bertindak sebagai trainer utama pada konvensi Gugus Kendali Mutu (GKM/QCC) tingkat perusahaan.</li><li>Merancang platform LMS internal berbasis web lengkap dengan modul dinamis, akun pengguna, dan evaluasi otomatis.</li><li>Menyusun kamus kompetensi jabatan dan memandu orientasi lulusan baru serta promosi staf.</li><li>Mengelola entri data SAP/HRIS, rasio absensi (ATR), serta inspeksi kepatuhan APD area workshop.</li>`,
+            exp3Title: "Group Leader - System & Training, People Development",
+            exp3Company: "HRGA - PT Putra Perkasa Abadi",
+            exp3Date: "03/2022 - 12/2023",
+            exp3List: `<li>Bertindak sebagai trainer utama pada konvensi Gugus Kendali Mutu (GKM/QCC) tingkat perusahaan.</li><li>Merancang platform LMS internal berbasis web lengkap dengan modul dinamis, akun pengguna, dan evaluasi otomatis.</li><li>Menyusun kamus kompetensi jabatan dan memandu orientasi lulusan baru serta promosi staf.</li><li>Mengelola entri data SAP/HRIS, rasio absensi (ATR), serta inspeksi kepatuhan APD area workshop.</li>`,
 
             // Testimonials Section
             testiTag: "Testimoni Rekan",

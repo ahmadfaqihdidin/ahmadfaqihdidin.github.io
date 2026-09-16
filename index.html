@@ -55,9 +55,22 @@
         .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
         .fade-in-up.is-visible { opacity: 1; transform: translateY(0); }
         
-        /* Card hover micro-animations */
-        .card-hover-effect { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease; }
-        .card-hover-effect:hover { transform: translateY(-5px); box-shadow: 0 16px 32px -10px rgba(37, 99, 235, 0.12); border-color: rgba(37, 99, 235, 0.3); }
+        /* Card hover & click (active) micro-animations with subtle modern shadow */
+        .card-hover-effect {
+            box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+            will-change: transform, box-shadow;
+            cursor: pointer;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -4px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.04);
+            border-color: rgba(37, 99, 235, 0.35);
+        }
+        .card-hover-effect:active {
+            transform: translateY(-1px) scale(0.995);
+            box-shadow: 0 4px 8px -2px rgba(15, 23, 42, 0.06);
+        }
 
         /* 3D Parallax & Specular Card Shine */
         .tilt-card {
@@ -91,7 +104,7 @@
         .badge-ping { animation: badge-pulse 2s infinite ease-in-out; }
         
         /* Filter tabs active state */
-        .filter-tab.active { background-color: #2563EB; color: #ffffff; border-color: #2563EB; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+        .filter-tab.active { background-color: #2563EB; color: #ffffff; border-color: #2563EB; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2); }
     </style>
 </head>
 <body class="bg-white text-slate-600">
@@ -114,18 +127,18 @@
                 <a class="text-slate-600 hover:text-blue-600 transition" data-lang-key="navContact" href="#contact">Contact</a>
             </nav>
             <div class="hidden md:flex items-center gap-3">
-                <button class="bg-slate-100 text-slate-900 border border-slate-200 px-3.5 py-1.5 rounded-full font-bold text-xs hover:bg-slate-200 transition flex items-center gap-2 cursor-pointer shadow-sm btn-translate-toggle" id="translate-button" title="Ganti Bahasa / Switch Language">
+                <button class="bg-slate-100 text-slate-900 border border-slate-200 px-3.5 py-1.5 rounded-lg font-bold text-xs hover:bg-slate-200 transition flex items-center gap-2 cursor-pointer shadow-xs hover:shadow-sm transform hover:-translate-y-0.5 active:translate-y-0 btn-translate-toggle" id="translate-button" title="Ganti Bahasa / Switch Language">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                     <span id="lang-indicator">ID</span>
                 </button>
-                <a class="bg-blue-600 text-white px-5 py-2 rounded-full font-semibold text-sm hover:bg-blue-700 transition shadow-md shadow-blue-500/20 transform hover:-translate-y-0.5" data-lang-key="navGetInTouch" href="#contact">Get in touch</a>
+                <a class="bg-blue-600 text-white px-4 sm:px-5 py-2 rounded-lg font-semibold text-sm hover:bg-blue-700 transition shadow-xs hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0 active:scale-98" data-lang-key="navGetInTouch" href="#contact">Get in touch</a>
             </div>
             <div class="flex items-center gap-2 md:hidden">
-                <button class="bg-slate-100 text-slate-900 border border-slate-200 px-2.5 py-1 rounded-full font-bold text-xs hover:bg-slate-200 transition flex items-center gap-1.5 cursor-pointer shadow-xs btn-translate-toggle" id="translate-button-header-mobile" title="Ganti Bahasa / Switch Language">
+                <button class="bg-slate-100 text-slate-900 border border-slate-200 px-2.5 py-1 rounded-lg font-bold text-xs hover:bg-slate-200 transition flex items-center gap-1.5 cursor-pointer shadow-xs btn-translate-toggle" id="translate-button-header-mobile" title="Ganti Bahasa / Switch Language">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                     <span class="lang-indicator-compact font-mono-code text-[11px]">ID</span>
                 </button>
-                <button class="p-2 text-slate-800 rounded-lg hover:bg-slate-100 transition min-w-[40px] min-h-[40px] flex items-center justify-center" id="mobile-menu-button" aria-label="Toggle Navigation">
+                <button class="p-2 text-slate-800 rounded-lg hover:bg-slate-100 transition min-w-[40px] min-h-[40px] flex items-center justify-center shadow-xs" id="mobile-menu-button" aria-label="Toggle Navigation">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
@@ -143,7 +156,7 @@
                     <span class="w-7 h-7 rounded-lg bg-blue-600 text-white text-xs font-bold flex items-center justify-center">AF</span>
                     <span class="font-bold text-base text-slate-900">Ahmad Faqih</span>
                 </div>
-                <button id="mobile-menu-close" class="p-2 text-slate-500 hover:text-slate-800 min-w-[36px] min-h-[36px] flex items-center justify-center" aria-label="Close Navigation">
+                <button id="mobile-menu-close" class="p-2 text-slate-500 hover:text-slate-800 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-lg" aria-label="Close Navigation">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
@@ -158,11 +171,11 @@
             </nav>
         </div>
         <div class="space-y-3.5 pt-6 border-t border-slate-100">
-            <button class="w-full bg-slate-100 text-slate-900 border border-slate-200 py-2.5 rounded-full font-bold text-sm hover:bg-slate-200 transition flex items-center justify-center gap-2 btn-translate-toggle" id="translate-button-mobile">
+            <button class="w-full bg-slate-100 text-slate-900 border border-slate-200 py-2.5 rounded-lg font-bold text-sm hover:bg-slate-200 transition flex items-center justify-center gap-2 shadow-xs btn-translate-toggle" id="translate-button-mobile">
                 <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                 <span id="lang-indicator-mobile">Bahasa Indonesia (ID)</span>
             </button>
-            <a class="block text-center w-full bg-blue-600 text-white py-2.5 sm:py-3 rounded-full font-semibold text-sm shadow-md shadow-blue-500/20" data-lang-key="navGetInTouch" href="#contact">Get in touch</a>
+            <a class="block text-center w-full bg-blue-600 text-white py-2.5 sm:py-3 rounded-lg font-semibold text-sm shadow-xs hover:shadow-md transition transform active:scale-98" data-lang-key="navGetInTouch" href="#contact">Get in touch</a>
         </div>
     </div>
 
@@ -190,25 +203,28 @@
                             <span class="typewriter-caret text-lg sm:text-xl ml-0.5">▌</span>
                         </div>
                         <p class="text-slate-600 mt-4 sm:mt-6 text-sm sm:text-base leading-relaxed max-w-md mx-auto md:mx-0" data-lang-key="heroGreeting">
-                            An AI enthusiast, HSE and Training Specialist passionate about streamlining complex workflows, reasoning models, and high-impact mining safety frameworks.
+                            A proactive, data-driven HSE &amp; Training Specialist and Continuous Improvement Lead passionate about eliminating operational bottlenecks, driving Kaizen/QCC quality conventions, and leveraging AI tools to accelerate workplace workflows.
                         </p>
                         <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-                            <a class="bg-blue-600 text-white px-6 sm:px-7 py-3 rounded-full font-semibold text-sm hover:bg-blue-700 transition inline-flex items-center justify-center gap-2 group shadow-lg shadow-blue-600/25 transform hover:-translate-y-0.5 w-full sm:w-auto" data-lang-key="heroBtnDiscuss" href="#contact">
+                            <a class="bg-blue-600 text-white px-6 sm:px-7 py-3 rounded-lg font-semibold text-sm hover:bg-blue-700 transition inline-flex items-center justify-center gap-2 group shadow-xs hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0 active:scale-98 w-full sm:w-auto" data-lang-key="heroBtnDiscuss" href="#contact">
                                 <span>Let's Discuss</span>
                                 <svg class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                             </a>
-                            <a class="bg-white border border-slate-200 text-slate-800 hover:border-blue-600 hover:text-blue-600 px-5 sm:px-6 py-3 rounded-full font-semibold text-sm transition inline-flex items-center justify-center shadow-sm w-full sm:w-auto" data-lang-key="heroBtnExp" href="#experience">
+                            <a class="bg-white border border-slate-200 text-slate-800 hover:border-blue-600 hover:text-blue-600 px-5 sm:px-6 py-3 rounded-lg font-semibold text-sm transition inline-flex items-center justify-center shadow-xs hover:shadow-sm transform hover:-translate-y-0.5 active:translate-y-0 active:scale-98 w-full sm:w-auto" data-lang-key="heroBtnExp" href="#experience">
                                 View Experience
                             </a>
                         </div>
                     </div>
 
-                    <!-- Center Hero Portrait with Multi-Plane Depth -->
+                    <!-- Center Hero Character Video with Multi-Plane Depth & Transparent Background -->
                     <div class="lg:col-span-5 flex flex-col items-center justify-center order-first md:order-none fade-in-up relative">
                         <div class="relative flex justify-center items-end max-w-full">
-                            <img id="hero-portrait-img" alt="Ahmad Faqih Imaduddin - HSE & Training Professional" class="max-h-[300px] sm:max-h-[400px] md:max-h-[460px] lg:max-h-[540px] w-auto max-w-full object-contain filter contrast-[1.02] drop-shadow-2xl will-change-transform transform hover:scale-[1.02] transition-transform duration-500" loading="eager" src="images/upper.png"/>
+                            <video id="hero-portrait-img" class="max-h-[320px] sm:max-h-[420px] md:max-h-[480px] lg:max-h-[540px] w-auto max-w-full object-contain filter contrast-[1.02] drop-shadow-xl will-change-transform transform hover:scale-[1.02] transition-transform duration-500 cursor-pointer pointer-events-auto" autoplay loop muted playsinline poster="images/hero/hero_character_poster.webp">
+                                <source src="images/hero/hero_character_transparent.webm" type="video/webm; codecs=vp9">
+                                <img src="images/hero/hero_character_anim.webp" alt="Ahmad Faqih Imaduddin - HSE & Training Professional" class="max-h-[320px] sm:max-h-[420px] md:max-h-[480px] lg:max-h-[540px] w-auto max-w-full object-contain filter contrast-[1.02]">
+                            </video>
                         </div>
-                        <div id="hero-status-card" class="mt-3 bg-white/90 backdrop-blur-md px-3.5 sm:px-4 py-2 rounded-full border border-slate-200/80 shadow-md flex items-center justify-between gap-2 sm:gap-4 max-w-[320px] sm:max-w-sm w-full will-change-transform">
+                        <div id="hero-status-card" class="mt-3 bg-white/95 backdrop-blur-md px-3.5 sm:px-4 py-2.5 rounded-xl border border-slate-200/80 shadow-xs hover:shadow-sm transition-all duration-300 flex items-center justify-between gap-2 sm:gap-4 max-w-[320px] sm:max-w-sm w-full will-change-transform">
                             <div class="min-w-0">
                                 <p class="text-xs font-bold text-slate-900 truncate">Ahmad Faqih Imaduddin</p>
                                 <p class="text-[10px] sm:text-[11px] text-blue-600 font-medium truncate">Semarang, Central Java, ID</p>
@@ -225,20 +241,20 @@
                         <div class="mb-5 sm:mb-6">
                             <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5 sm:mb-3" data-lang-key="heroFollow">Professional Profiles</p>
                             <div class="flex space-x-2.5 justify-center md:justify-end">
-                                <a aria-label="LinkedIn Profile" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-600 hover:bg-blue-50 transition shadow-sm" href="https://www.linkedin.com/in/ahmadfaqihimaduddin" target="_blank" rel="noopener noreferrer">
+                                <a aria-label="LinkedIn Profile" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-600 hover:bg-blue-50 transition shadow-xs hover:shadow-sm transform hover:-translate-y-0.5 active:translate-y-0" href="https://www.linkedin.com/in/ahmadfaqihimaduddin" target="_blank" rel="noopener noreferrer">
                                     <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
                                 </a>
-                                <a aria-label="Personal Website" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-600 hover:bg-blue-50 transition shadow-sm" href="https://ahmadfaqihdidin.github.io" target="_blank" rel="noopener noreferrer">
+                                <a aria-label="Personal Website" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-600 hover:bg-blue-50 transition shadow-xs hover:shadow-sm transform hover:-translate-y-0.5 active:translate-y-0" href="https://ahmadfaqihdidin.github.io" target="_blank" rel="noopener noreferrer">
                                     <svg class="w-4 h-4 fill-current" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
                                 </a>
                             </div>
                         </div>
                         <p class="text-xs text-blue-600 font-bold tracking-wide uppercase mb-1" data-lang-key="heroSpecialtyTag">Specialization</p>
                         <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-tight" data-lang-key="heroRole">
-                            HSE SYSTEM &amp;<br/>AI WORKFLOW SPECIALIST
+                            HSE SYSTEM &amp;<br/>CONTINUOUS IMPROVEMENT LEAD
                         </h2>
                         <p class="text-slate-600 mt-2 text-xs sm:text-sm leading-relaxed" data-lang-key="heroSubGreeting">
-                            Bridging safety compliance, AI-driven workflow optimization, and high-performance talent architectures.
+                            Driving operational safety compliance, continuous improvement (QCC/Kaizen), and workflow optimization with AI assistance.
                         </p>
                     </div>
                 </div>
@@ -250,7 +266,7 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
                     <div class="md:col-span-5 fade-in-up">
-                        <div id="about-photo-card" class="relative rounded-3xl overflow-hidden border border-slate-200/80 bg-gradient-to-b from-slate-50 via-slate-100/60 to-slate-200/40 shadow-xl group p-4 sm:p-5 flex flex-col items-center justify-between min-h-[420px] sm:min-h-[470px] md:min-h-[510px]">
+                        <div id="about-photo-card" class="relative rounded-xl overflow-hidden border border-slate-200/80 bg-gradient-to-b from-slate-50 via-slate-100/60 to-slate-200/40 shadow-xs card-hover-effect group p-4 sm:p-5 flex flex-col items-center justify-between min-h-[420px] sm:min-h-[470px] md:min-h-[510px]">
                             <!-- Top Info Tag -->
                             <div class="w-full flex items-center justify-between gap-2 z-10">
                                 <span class="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-blue-600 text-[10px] sm:text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider border border-blue-100 shadow-xs">
@@ -262,11 +278,11 @@
                             
                             <!-- Full Photo Display without Head / Helmet Crop -->
                             <div class="relative flex items-center justify-center w-full my-auto py-2">
-                                <img alt="Ahmad Faqih leading safety training" class="max-h-[340px] sm:max-h-[390px] md:max-h-[430px] w-auto object-contain filter drop-shadow-2xl group-hover:scale-[1.03] transition-transform duration-500 ease-out" loading="lazy" src="images/footer.png"/>
+                                <img alt="Ahmad Faqih Imaduddin - Safety &amp; Training Specialist" class="max-h-[340px] sm:max-h-[390px] md:max-h-[430px] w-auto object-contain filter drop-shadow-2xl group-hover:scale-[1.03] transition-transform duration-500 ease-out" loading="lazy" src="images/upper.png"/>
                             </div>
                             
                             <!-- Bottom Info Card -->
-                            <div class="w-full z-10 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl border border-slate-200/80 shadow-md">
+                            <div class="w-full z-10 bg-white/95 backdrop-blur-md p-3.5 sm:p-4 rounded-lg border border-slate-200/80 shadow-xs">
                                 <div class="flex items-center gap-2">
                                     <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
                                     <p class="text-xs sm:text-sm font-bold text-slate-900 leading-snug" data-lang-key="aboutBadge">Practical Training &amp; SMKP Mining Audits</p>
@@ -278,27 +294,27 @@
                     <div class="md:col-span-7 fade-in-up">
                         <p class="text-blue-600 font-bold tracking-wider text-xs uppercase mb-2" data-lang-key="aboutMeLabel">ABOUT ME</p>
                         <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight" data-lang-key="aboutTitle">
-                            Driving Safety with Purpose, Simplifying Workflows with AI.
+                            Driving Safety with Purpose, Continuous Improvement with Modern AI Tools.
                         </h2>
                         <p class="text-slate-600 mt-3 sm:mt-4 text-sm sm:text-base md:text-lg leading-relaxed" data-lang-key="aboutDesc">
-                            An AI enthusiast, HR &amp; Safety Specialist passionate about simplifying complex workplace workflows and advancing mining safety (SMKP Minerba, AK3 Umum). I leverage advanced AI reasoning models (Claude, Gemini, ChatGPT) and modern LMS platforms to eliminate administrative bottlenecks, design impactful curriculum, and build resilient organizational culture.
+                            A dedicated HSE, Training, and Continuous Improvement Specialist. I focus on elevating mining safety systems (SMKP Minerba, AK3 Umum), spearheading Quality Control Circle (QCC/Kaizen) problem-solving initiatives, and utilizing advanced AI tools (Claude, Gemini, ChatGPT) as assistants to streamline complex workflows and eliminate administrative bottlenecks.
                         </p>
                         <div class="mt-5 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
-                            <div class="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                            <div class="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                                 <div class="text-blue-600 font-bold text-sm mb-1" data-lang-key="aboutHighlight1Title">Safety Standards</div>
                                 <p class="text-xs text-slate-600 leading-relaxed" data-lang-key="aboutHighlight1Desc">AK3 Umum, POP First Line Supervisor, SMKP Minerba, ISO 45001 &amp; ISO 14001 readiness.</p>
                             </div>
-                            <div class="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+                            <div class="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                                 <div class="text-blue-600 font-bold text-sm mb-1" data-lang-key="aboutHighlight2Title">Talent &amp; L&amp;D</div>
                                 <p class="text-xs text-slate-600 leading-relaxed" data-lang-key="aboutHighlight2Desc">Young Leadership Program (YLP), TNA, TOT KKNI Lvl 4, QCC Six Sigma problem solving.</p>
                             </div>
-                            <div class="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                                <div class="text-blue-600 font-bold text-sm mb-1" data-lang-key="aboutHighlight3Title">AI &amp; Digital Builder</div>
-                                <p class="text-xs text-slate-600 leading-relaxed" data-lang-key="aboutHighlight3Desc">Reasoning AI (Claude, Gemini, ChatGPT), Workflow Automation, LMS Platforms &amp; Dashboards.</p>
+                            <div class="p-3.5 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
+                                <div class="text-blue-600 font-bold text-sm mb-1" data-lang-key="aboutHighlight3Title">Continuous Improvement &amp; AI Tools</div>
+                                <p class="text-xs text-slate-600 leading-relaxed" data-lang-key="aboutHighlight3Desc">QCC / Six Sigma problem solving, Kaizen workflow simplification, LMS platforms, and AI reasoning tools as workflow accelerators.</p>
                             </div>
                         </div>
                         <div class="mt-6">
-                            <a class="bg-blue-600 text-white px-6 sm:px-7 py-3 rounded-full font-semibold text-sm hover:bg-blue-700 transition inline-flex items-center justify-center gap-2 group shadow-md shadow-blue-500/20 w-full sm:w-auto" data-lang-key="aboutReadMore" href="#experience">
+                            <a class="bg-blue-600 text-white px-6 sm:px-7 py-3 rounded-lg font-semibold text-sm hover:bg-blue-700 transition inline-flex items-center justify-center gap-2 group shadow-xs hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0 active:scale-98 w-full sm:w-auto" data-lang-key="aboutReadMore" href="#experience">
                                 <span>Explore Career History</span>
                                 <svg class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                             </a>
@@ -312,17 +328,17 @@
         <section class="py-10 sm:py-14 bg-slate-50/80 border-y border-slate-200/60">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto text-center fade-in-up">
-                    <div class="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/70 shadow-sm card-hover-effect">
+                    <div class="p-5 sm:p-6 rounded-xl bg-white border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                         <p class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-blue-600 stat-value" data-suffix="+" data-target="4">0</p>
                         <p class="text-slate-900 mt-2 font-bold text-sm md:text-base" data-lang-key="stat1Label">Years of Experience</p>
                         <p class="text-xs text-slate-400 mt-0.5" data-lang-key="stat1Sub">Mining &amp; Heavy Industry</p>
                     </div>
-                    <div class="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/70 shadow-sm card-hover-effect">
+                    <div class="p-5 sm:p-6 rounded-xl bg-white border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                         <p class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-blue-600 stat-value" data-suffix="+" data-target="15">0</p>
                         <p class="text-slate-900 mt-2 font-bold text-sm md:text-base" data-lang-key="stat2Label">Key Initiatives</p>
                         <p class="text-xs text-slate-400 mt-0.5" data-lang-key="stat2Sub">LMS, Programs &amp; Audits</p>
                     </div>
-                    <div class="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/70 shadow-sm card-hover-effect">
+                    <div class="p-5 sm:p-6 rounded-xl bg-white border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                         <p class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-emerald-600 stat-value" data-suffix="%" data-target="50">0</p>
                         <p class="text-slate-900 mt-2 font-bold text-sm md:text-base" data-lang-key="stat3Label">Gap Reduction</p>
                         <p class="text-xs text-slate-400 mt-0.5" data-lang-key="stat3Sub">From 90% down to 40% in 6 Mo</p>
@@ -344,7 +360,7 @@
                 
                 <!-- Competency Progress Bars -->
                 <div class="max-w-3xl mx-auto space-y-3.5 sm:space-y-4 mb-10 sm:mb-14">
-                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 card-hover-effect fade-in-up">
+                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
                             <span class="font-bold text-slate-900 text-xs sm:text-sm" data-lang-key="skill1">HSE Training, Induction &amp; SMKP Compliance</span>
                             <span class="text-[11px] sm:text-xs font-bold text-blue-600 font-mono-code bg-blue-50 px-2 py-0.5 rounded border border-blue-100 self-start sm:self-auto">95% • Expert</span>
@@ -353,7 +369,7 @@
                             <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-500" data-percent="95"></div>
                         </div>
                     </div>
-                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 card-hover-effect fade-in-up">
+                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
                             <span class="font-bold text-slate-900 text-xs sm:text-sm" data-lang-key="skill2">Training Needs Analysis (TNA) &amp; Curriculum Design</span>
                             <span class="text-[11px] sm:text-xs font-bold text-blue-600 font-mono-code bg-blue-50 px-2 py-0.5 rounded border border-blue-100 self-start sm:self-auto">90% • Expert</span>
@@ -362,7 +378,7 @@
                             <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-500" data-percent="90"></div>
                         </div>
                     </div>
-                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 card-hover-effect fade-in-up">
+                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
                             <span class="font-bold text-slate-900 text-xs sm:text-sm" data-lang-key="skill3">AI Reasoning, Thinking Models &amp; Workflow Simplification</span>
                             <span class="text-[11px] sm:text-xs font-bold text-blue-600 font-mono-code bg-blue-50 px-2 py-0.5 rounded border border-blue-100 self-start sm:self-auto">92% • Expert</span>
@@ -371,7 +387,7 @@
                             <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-500" data-percent="92"></div>
                         </div>
                     </div>
-                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 card-hover-effect fade-in-up">
+                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
                             <span class="font-bold text-slate-900 text-xs sm:text-sm" data-lang-key="skill4">LMS &amp; Digital Learning Development</span>
                             <span class="text-[11px] sm:text-xs font-bold text-blue-600 font-mono-code bg-blue-50 px-2 py-0.5 rounded border border-blue-100 self-start sm:self-auto">88% • Advanced</span>
@@ -380,7 +396,7 @@
                             <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-500" data-percent="88"></div>
                         </div>
                     </div>
-                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 card-hover-effect fade-in-up">
+                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
                             <span class="font-bold text-slate-900 text-xs sm:text-sm" data-lang-key="skill5">Recruitment &amp; HRIS / SAP ERP Systems</span>
                             <span class="text-[11px] sm:text-xs font-bold text-blue-600 font-mono-code bg-blue-50 px-2 py-0.5 rounded border border-blue-100 self-start sm:self-auto">85% • Advanced</span>
@@ -389,7 +405,7 @@
                             <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-500" data-percent="85"></div>
                         </div>
                     </div>
-                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 card-hover-effect fade-in-up">
+                    <div class="p-3.5 sm:p-4.5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
                             <span class="font-bold text-slate-900 text-xs sm:text-sm" data-lang-key="skill6">Quality Control Circle (QCC) &amp; Lean Six Sigma</span>
                             <span class="text-[11px] sm:text-xs font-bold text-blue-600 font-mono-code bg-blue-50 px-2 py-0.5 rounded border border-blue-100 self-start sm:self-auto">80% • Advanced</span>
@@ -402,7 +418,7 @@
 
                 <!-- Detailed Skill Grid Breakdown from CV -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-                    <div class="p-4.5 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 fade-in-up">
+                    <div class="p-4.5 sm:p-5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="text-blue-600 font-bold text-sm mb-3 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.944a11.955 11.955 0 0118 0 12.02 12.02 0 00-3.382-9.984z"></path></svg>
                             <span data-lang-key="skillGroup1Title">HSE &amp; Risk Tools</span>
@@ -415,7 +431,7 @@
                             <li>• P2K3 &amp; Emergency Response</li>
                         </ul>
                     </div>
-                    <div class="p-4.5 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 fade-in-up">
+                    <div class="p-4.5 sm:p-5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="text-blue-600 font-bold text-sm mb-3 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             <span data-lang-key="skillGroup2Title">Data &amp; Analytics</span>
@@ -428,7 +444,7 @@
                             <li>• Data Entry &amp; Audit Trail (Expert)</li>
                         </ul>
                     </div>
-                    <div class="p-4.5 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 fade-in-up">
+                    <div class="p-4.5 sm:p-5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="text-blue-600 font-bold text-sm mb-3 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                             <span data-lang-key="skillGroup3Title">System &amp; Dev</span>
@@ -441,10 +457,10 @@
                             <li>• AI &amp; LLM Orchestration</li>
                         </ul>
                     </div>
-                    <div class="p-4.5 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 fade-in-up">
+                    <div class="p-4.5 sm:p-5 rounded-xl bg-slate-50 border border-slate-200/80 shadow-xs card-hover-effect fade-in-up cursor-pointer">
                         <div class="text-blue-600 font-bold text-sm mb-3 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            <span data-lang-key="skillGroup4Title">AI &amp; Reasoning Models</span>
+                            <span data-lang-key="skillGroup4Title">Continuous Improvement &amp; AI Tools</span>
                         </div>
                         <div class="flex flex-wrap gap-1.5 mb-2.5">
                             <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200/80">
@@ -483,17 +499,17 @@
                     </p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up card-hover-effect">
-                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
+                    <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs fade-in-up card-hover-effect cursor-pointer">
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
                             <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.944a11.955 11.955 0 0118 0 12.02 12.02 0 00-3.382-9.984z"></path></svg>
                         </div>
-                        <h3 class="text-base font-bold text-slate-900" data-lang-key="serviceCard1Title">HSE Training &amp; Induction</h3>
+                        <h3 class="text-base font-bold text-slate-900" data-lang-key="serviceCard1Title">HSE System &amp; Training</h3>
                         <p class="text-slate-600 mt-2 text-xs leading-relaxed" data-lang-key="serviceCard1Desc">
                             Designing proprietary safety modules (JSA, HIRA-DC, Incident Investigation) and mandatory SMKP-aligned induction curriculums.
                         </p>
                     </div>
-                    <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up card-hover-effect">
-                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
+                    <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs fade-in-up card-hover-effect cursor-pointer">
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
                             <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         </div>
                         <h3 class="text-base font-bold text-slate-900" data-lang-key="serviceCard2Title">People Development</h3>
@@ -501,8 +517,8 @@
                             Facilitating leadership acceleration (Young Leadership Program), succession pipelines, and continuous competency calibration.
                         </p>
                     </div>
-                    <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up card-hover-effect">
-                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
+                    <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs fade-in-up card-hover-effect cursor-pointer">
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
                             <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V5m0 14v-1m6-7h1M5 12H4m12 0a5 5 0 11-10 0 5 5 0 0110 0z"></path></svg>
                         </div>
                         <h3 class="text-base font-bold text-slate-900" data-lang-key="serviceCard3Title">System &amp; LMS Dev</h3>
@@ -510,8 +526,8 @@
                             Architecting web LMS platforms, digitizing assessments, competency matrix integration, and SAP ERP workflow synchronization.
                         </p>
                     </div>
-                    <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up card-hover-effect">
-                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
+                    <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs fade-in-up card-hover-effect cursor-pointer">
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
                             <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                         </div>
                         <h3 class="text-base font-bold text-slate-900" data-lang-key="serviceCard4Title">HR &amp; Recruitment</h3>
@@ -535,7 +551,7 @@
                 </div>
                 <div class="space-y-4 sm:space-y-6 max-w-4xl mx-auto">
                     <!-- Exp 1 -->
-                    <div class="p-4.5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm fade-in-up card-hover-effect">
+                    <div class="p-4.5 sm:p-6 rounded-xl bg-white border border-slate-200/80 shadow-xs fade-in-up card-hover-effect cursor-pointer">
                         <div class="flex flex-col sm:flex-row justify-between sm:items-baseline gap-2">
                             <div>
                                 <h3 class="text-base sm:text-lg font-bold text-slate-900" data-lang-key="exp1Title">Foreman - System, Compliance &amp; Training, Promotion</h3>
@@ -554,7 +570,7 @@
                     </div>
 
                     <!-- Exp 2 -->
-                    <div class="p-4.5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm fade-in-up card-hover-effect">
+                    <div class="p-4.5 sm:p-6 rounded-xl bg-white border border-slate-200/80 shadow-xs fade-in-up card-hover-effect cursor-pointer">
                         <div class="flex flex-col sm:flex-row justify-between sm:items-baseline gap-2">
                             <div>
                                 <h3 class="text-base sm:text-lg font-bold text-slate-900" data-lang-key="exp2Title">Supervisor - People Development</h3>
@@ -572,31 +588,15 @@
                     </div>
 
                     <!-- Exp 3 -->
-                    <div class="p-4.5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm fade-in-up card-hover-effect">
+                    <div class="p-4.5 sm:p-6 rounded-xl bg-white border border-slate-200/80 shadow-xs fade-in-up card-hover-effect cursor-pointer">
                         <div class="flex flex-col sm:flex-row justify-between sm:items-baseline gap-2">
                             <div>
-                                <h3 class="text-base sm:text-lg font-bold text-slate-900" data-lang-key="exp3Title">Human Resources Specialist</h3>
-                                <p class="text-blue-600 font-semibold text-xs sm:text-sm mt-0.5" data-lang-key="exp3Company">PT Satria Muda Prima</p>
+                                <h3 class="text-base sm:text-lg font-bold text-slate-900" data-lang-key="exp3Title">Group Leader - System &amp; Training, People Development</h3>
+                                <p class="text-blue-600 font-semibold text-xs sm:text-sm mt-0.5" data-lang-key="exp3Company">HRGA - PT Putra Perkasa Abadi</p>
                             </div>
-                            <span class="font-mono-code text-[11px] sm:text-xs font-bold bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100 self-start sm:self-auto shrink-0" data-lang-key="exp3Date">01/2023 - 06/2023</span>
+                            <span class="font-mono-code text-[11px] sm:text-xs font-bold bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100 self-start sm:self-auto shrink-0" data-lang-key="exp3Date">03/2022 - 12/2023</span>
                         </div>
                         <ul class="mt-3 list-disc list-inside text-slate-600 space-y-1.5 text-xs sm:text-sm leading-relaxed" data-lang-key="exp3List">
-                            <li>Managed end-to-end recruitment pipelines, workforce planning, psychological assessment evaluation, and interview panels.</li>
-                            <li>Formulated employee onboarding journeys and executed systematic Training Needs Analysis (TNA).</li>
-                            <li>Administered payroll documentation, compensation matrices, and employee KPI evaluations.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Exp 4 -->
-                    <div class="p-4.5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm fade-in-up card-hover-effect">
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-baseline gap-2">
-                            <div>
-                                <h3 class="text-base sm:text-lg font-bold text-slate-900" data-lang-key="exp4Title">Group Leader - System &amp; Training, People Development</h3>
-                                <p class="text-blue-600 font-semibold text-xs sm:text-sm mt-0.5" data-lang-key="exp4Company">HRGA - PT Putra Perkasa Abadi</p>
-                            </div>
-                            <span class="font-mono-code text-[11px] sm:text-xs font-bold bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100 self-start sm:self-auto shrink-0" data-lang-key="exp4Date">03/2022 - 12/2023</span>
-                        </div>
-                        <ul class="mt-3 list-disc list-inside text-slate-600 space-y-1.5 text-xs sm:text-sm leading-relaxed" data-lang-key="exp4List">
                             <li>Served as master trainer for company-wide QCC (Quality Control Circle) continuous improvement conventions.</li>
                             <li>Architected an internal web-based LMS complete with dynamic course modules, user accounts, and automated assessment tracking.</li>
                             <li>Formulated competency frameworks for all positions and managed orientation programs for fresh graduates and promotions.</li>
@@ -615,24 +615,24 @@
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3" data-lang-key="testimonialsTitle">What Industry Colleagues Say</h2>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
-                    <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up card-hover-effect flex flex-col justify-between">
+                    <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs fade-in-up card-hover-effect flex flex-col justify-between cursor-pointer">
                         <p class="text-slate-700 text-xs sm:text-sm italic leading-relaxed" data-lang-key="testimonial1Text">
                             "Ahmad is a rare professional who bridges technical mining regulations with deeply engaging adult-learning pedagogy. His modules made safety personal, cutting our operational compliance gaps in half."
                         </p>
                         <div class="mt-4 sm:mt-5 pt-3 border-t border-slate-100 flex items-center gap-3">
-                            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-xs shrink-0">MS</div>
+                            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-xs shrink-0">MS</div>
                             <div class="min-w-0">
                                 <p class="font-bold text-xs text-slate-900 truncate" data-lang-key="testimonial1Name">Mining Safety Superintendent</p>
                                 <p class="text-[10px] sm:text-[11px] text-slate-500 truncate" data-lang-key="testimonial1Role">PT Ganda Alam Makmur</p>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm fade-in-up card-hover-effect flex flex-col justify-between">
+                    <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs fade-in-up card-hover-effect flex flex-col justify-between cursor-pointer">
                         <p class="text-slate-700 text-xs sm:text-sm italic leading-relaxed" data-lang-key="testimonial2Text">
                             "The Young Leadership Program Ahmad structured was transformative. His clarity in career leveling and grading structures set a new standard for our organizational development."
                         </p>
                         <div class="mt-4 sm:mt-5 pt-3 border-t border-slate-100 flex items-center gap-3">
-                            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-xs shrink-0">HD</div>
+                            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-xs shrink-0">HD</div>
                             <div class="min-w-0">
                                 <p class="font-bold text-xs text-slate-900 truncate" data-lang-key="testimonial2Name">Head of Human Capital</p>
                                 <p class="text-[10px] sm:text-[11px] text-slate-500 truncate" data-lang-key="testimonial2Role">PT Manoor Bulatn Lestari</p>
@@ -656,16 +656,16 @@
 
                 <!-- Category Filters -->
                 <div class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-10 fade-in-up">
-                    <button class="filter-tab active px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-bold border border-slate-200 transition cursor-pointer" data-filter="all" data-lang-key="filterAll">All Projects (10)</button>
-                    <button class="filter-tab px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:border-blue-600 transition cursor-pointer" data-filter="safety" data-lang-key="filterSafety">Mining &amp; Safety</button>
-                    <button class="filter-tab px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:border-blue-600 transition cursor-pointer" data-filter="talent" data-lang-key="filterTalent">Talent &amp; Leadership</button>
-                    <button class="filter-tab px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:border-blue-600 transition cursor-pointer" data-filter="digital" data-lang-key="filterDigital">Digital Systems &amp; LMS</button>
+                    <button class="filter-tab active px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs font-bold border border-slate-200 transition cursor-pointer shadow-xs" data-filter="all" data-lang-key="filterAll">All Projects (10)</button>
+                    <button class="filter-tab px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:border-blue-600 transition cursor-pointer shadow-xs" data-filter="safety" data-lang-key="filterSafety">Mining &amp; Safety</button>
+                    <button class="filter-tab px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:border-blue-600 transition cursor-pointer shadow-xs" data-filter="talent" data-lang-key="filterTalent">Talent &amp; Leadership</button>
+                    <button class="filter-tab px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:border-blue-600 transition cursor-pointer shadow-xs" data-filter="digital" data-lang-key="filterDigital">Digital Systems &amp; LMS</button>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 max-w-6xl mx-auto" id="portfolio-grid">
                     
                     <!-- Project 1: YLP & FGDP -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="talent"
                          data-title-en="Young Leadership Program (YLP) & FGDP" 
                          data-title-id="Program Kepemimpinan Muda (YLP) & FGDP"
@@ -690,7 +690,7 @@
                     </div>
 
                     <!-- Project 2: LV Test Area -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="safety"
                          data-title-en="LV Practical Field Test Area" 
                          data-title-id="Area Uji Praktik Lapangan Light Vehicle (LV)"
@@ -715,7 +715,7 @@
                     </div>
 
                     <!-- Project 3: GAMITAS LMS & HRIS Platform -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="digital"
                          data-title-en="GAMITAS LMS & HRIS Platform" 
                          data-title-id="GAMITAS - Platform HRIS & LMS Terpadu"
@@ -740,7 +740,7 @@
                     </div>
 
                     <!-- Project 4: Safe Our Life Dashboard -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="digital"
                          data-title-en="Safe Our Life - Safety Performance Dashboard" 
                          data-title-id="Safe Our Life - Dashboard Performa K3 Tambang"
@@ -765,7 +765,7 @@
                     </div>
 
                     <!-- Project 5: Mobile HSE App -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="digital"
                          data-title-en="Mobile HSE & Mining App (GAMITAS Mobile)" 
                          data-title-id="Aplikasi Mobile HSE Tambang (GAMITAS Mobile)"
@@ -790,7 +790,7 @@
                     </div>
 
                     <!-- Project 6: Corporate Safety Training Delivery -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="safety"
                          data-title-en="Corporate Safety Training & Master Delivery" 
                          data-title-id="Pelatihan Keselamatan Korporat & Master Delivery"
@@ -815,7 +815,7 @@
                     </div>
 
                     <!-- Project 7: On Board Fleet Safe Assist (ESP32-S3 IoT) -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="digital"
                          data-title-en="On Board Fleet Safe Assist (OFA Labs / ESP32-S3 IoT)" 
                          data-title-id="On Board Fleet Safe Assist (OFA Labs / ESP32-S3 IoT)"
@@ -840,7 +840,7 @@
                     </div>
 
                     <!-- Project 8: QCC Operational Improvement & Workshop Streamlining -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="safety"
                          data-title-en="QCC Operational Improvement & Cost Reduction" 
                          data-title-id="Peningkatan Operasional GKM & Efisiensi Workshop"
@@ -865,7 +865,7 @@
                     </div>
 
                     <!-- Project 9: NikahMudah.com - Digital Business Model Canvas (1st Place Champion UII) -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="digital"
                          data-title-en="NikahMudah.com - Digital Marketplace Platform (Champion UII)" 
                          data-title-id="NikahMudah.com - Platform Marketplace Digital (Juara 1 UII)"
@@ -890,7 +890,7 @@
                     </div>
 
                     <!-- Project 10: Performance Analytics Hub: Looker Studio & Power BI -->
-                    <div class="project-item relative rounded-2xl overflow-hidden border border-slate-200 group cursor-pointer project-card shadow-sm hover:shadow-xl transition-all duration-300 bg-white flex flex-col" 
+                    <div class="project-item relative rounded-xl overflow-hidden border border-slate-200/80 group cursor-pointer project-card card-hover-effect shadow-xs bg-white flex flex-col" 
                          data-category="talent"
                          data-title-en="Looker Studio & Power BI HR Analytics Hub" 
                          data-title-id="Hub Analitik Looker Studio & Power BI"
@@ -927,7 +927,7 @@
                     <div class="lg:col-span-5 fade-in-up">
                         <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-100" data-lang-key="eduTag">Academic</span>
                         <h2 class="text-2xl font-extrabold text-slate-900 mt-3 mb-5" data-lang-key="educationTitle">Education</h2>
-                        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm card-hover-effect">
+                        <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                             <div class="flex flex-col sm:flex-row justify-between sm:items-start gap-1 sm:gap-2">
                                 <div>
                                     <h3 class="text-base font-bold text-slate-900" data-lang-key="educationDegree">Bachelor's Degree in Management</h3>
@@ -949,7 +949,7 @@
                         <span class="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-100" data-lang-key="certsTag">Verified Credentials</span>
                         <h2 class="text-2xl font-extrabold text-slate-900 mt-3 mb-5" data-lang-key="certsTitle">Professional Certifications</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/90 shadow-sm card-hover-effect">
+                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                                 <div class="flex items-center justify-between gap-1">
                                     <h3 class="text-xs font-bold text-slate-900 truncate" data-lang-key="cert1Title">AK3 UMUM</h3>
                                     <span class="text-[10px] font-mono-code font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 shrink-0">2026 - 2029</span>
@@ -957,7 +957,7 @@
                                 <p class="text-[11px] text-blue-600 font-semibold mt-0.5" data-lang-key="cert1Issuer">BNSP / Kemenaker RI</p>
                                 <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">HIRA, Emergency Response, P2K3, Legal Compliance.</p>
                             </div>
-                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/90 shadow-sm card-hover-effect">
+                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                                 <div class="flex items-center justify-between gap-1">
                                     <h3 class="text-xs font-bold text-slate-900 truncate" data-lang-key="cert2Title">Trainer (TOT) KKNI Level 4</h3>
                                     <span class="text-[10px] font-mono-code font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 shrink-0">2023 - 2028</span>
@@ -965,7 +965,7 @@
                                 <p class="text-[11px] text-blue-600 font-semibold mt-0.5" data-lang-key="cert2Issuer">Badan Nasional Sertifikasi Profesi (BNSP)</p>
                                 <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Curriculum Design, Virtual Learning, Competency Assessment.</p>
                             </div>
-                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/90 shadow-sm card-hover-effect">
+                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                                 <div class="flex items-center justify-between gap-1">
                                     <h3 class="text-xs font-bold text-slate-900 truncate" data-lang-key="cert3Title">POP First Line Supervisor</h3>
                                     <span class="text-[10px] font-mono-code font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 shrink-0">2024 - 2027</span>
@@ -973,7 +973,7 @@
                                 <p class="text-[11px] text-blue-600 font-semibold mt-0.5" data-lang-key="cert3Issuer">BNSP / KESDM Minerba</p>
                                 <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Mining Safety Inspections, JSA, Safety Meetings &amp; Audits.</p>
                             </div>
-                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/90 shadow-sm card-hover-effect">
+                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                                 <div class="flex items-center justify-between gap-1">
                                     <h3 class="text-xs font-bold text-slate-900 truncate" data-lang-key="cert4Title">Implementasi SMKP</h3>
                                     <span class="text-[10px] font-mono-code font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 shrink-0">2023 - 2028</span>
@@ -981,7 +981,7 @@
                                 <p class="text-[11px] text-blue-600 font-semibold mt-0.5" data-lang-key="cert4Issuer">PPSDM Geominerba</p>
                                 <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">SMKP Implementation, Documentation, &amp; Management Review.</p>
                             </div>
-                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/90 shadow-sm card-hover-effect">
+                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                                 <div class="flex items-center justify-between gap-1">
                                     <h3 class="text-xs font-bold text-slate-900 truncate" data-lang-key="cert5Title">Staf Sumber Daya Manusia (SDM)</h3>
                                     <span class="text-[10px] font-mono-code font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 shrink-0">2021 - 2024</span>
@@ -989,7 +989,7 @@
                                 <p class="text-[11px] text-blue-600 font-semibold mt-0.5" data-lang-key="cert5Issuer">Badan Nasional Sertifikasi Profesi (BNSP)</p>
                                 <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">Job Description, Payroll Administration, HR Policy.</p>
                             </div>
-                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/90 shadow-sm card-hover-effect">
+                            <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-slate-200/80 shadow-xs card-hover-effect cursor-pointer">
                                 <div class="flex items-center justify-between gap-1">
                                     <h3 class="text-xs font-bold text-slate-900 truncate" data-lang-key="cert6Title">Six Sigma (White Belt / QCC)</h3>
                                     <span class="text-[10px] font-mono-code font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 shrink-0">2022</span>
@@ -1027,9 +1027,9 @@
                     <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 fade-in-up">
                         
                         <!-- Email Card -->
-                        <a href="mailto:ahmadfaqihdidin@gmail.com" class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:border-blue-500 hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
+                        <a href="mailto:ahmadfaqihdidin@gmail.com" class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs hover:border-blue-500 card-hover-effect cursor-pointer group flex flex-col justify-between">
                             <div>
-                                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                                 </div>
                                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400" data-lang-key="contactEmailLabel">Email Address</span>
@@ -1042,9 +1042,9 @@
                         </a>
 
                         <!-- Phone & WhatsApp Card (Censored) -->
-                        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                        <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs card-hover-effect flex flex-col justify-between">
                             <div>
-                                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 sm:mb-4">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                 </div>
                                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400" data-lang-key="contactPhoneLabel">Phone / WhatsApp</span>
@@ -1056,9 +1056,9 @@
                         </div>
 
                         <!-- LinkedIn Profile Card -->
-                        <a href="https://www.linkedin.com/in/ahmadfaqihdidin" target="_blank" rel="noopener noreferrer" class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:border-blue-500 hover:shadow-md transition-all duration-300 group flex flex-col justify-between">
+                        <a href="https://www.linkedin.com/in/ahmadfaqihdidin" target="_blank" rel="noopener noreferrer" class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs hover:border-blue-500 card-hover-effect cursor-pointer group flex flex-col justify-between">
                             <div>
-                                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 group-hover:bg-blue-700 group-hover:text-white transition-all">
+                                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 group-hover:bg-blue-700 group-hover:text-white transition-all">
                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                                 </div>
                                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400" data-lang-key="contactLinkedInLabel">LinkedIn Network</span>
@@ -1071,9 +1071,9 @@
                         </a>
 
                         <!-- Operations Hub & Location Card -->
-                        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                        <div class="bg-white p-5 sm:p-6 rounded-xl border border-slate-200/80 shadow-xs card-hover-effect flex flex-col justify-between">
                             <div>
-                                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-3 sm:mb-4">
+                                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mb-3 sm:mb-4">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 </div>
                                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400" data-lang-key="contactLocationLabel">Location & Operations</span>
@@ -1087,7 +1087,7 @@
                     </div>
 
                     <!-- Right Column: Professional Summary & Action Banner Card -->
-                    <div class="lg:col-span-5 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl shadow-blue-600/15 flex flex-col justify-between fade-in-up relative overflow-hidden">
+                    <div class="lg:col-span-5 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10 shadow-xs card-hover-effect flex flex-col justify-between fade-in-up relative overflow-hidden border border-blue-500/20">
                         <!-- Decorative background pattern -->
                         <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
                         <div class="absolute -top-10 -left-10 w-48 h-48 bg-blue-400/20 rounded-full blur-2xl pointer-events-none"></div>
@@ -1123,11 +1123,11 @@
                         </div>
 
                         <div class="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-white/20 relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                            <a href="mailto:ahmadfaqihdidin@gmail.com" class="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-full font-bold text-sm transition text-center shadow-lg shadow-black/10 inline-flex items-center justify-center gap-2 group w-full sm:w-auto">
+                            <a href="mailto:ahmadfaqihdidin@gmail.com" class="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-lg font-bold text-sm transition text-center shadow-xs hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0 active:scale-98 inline-flex items-center justify-center gap-2 group w-full sm:w-auto">
                                 <span data-lang-key="contactBtn">Start a Conversation</span>
                                 <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
-                            <a href="https://www.linkedin.com/in/ahmadfaqihdidin" target="_blank" rel="noopener noreferrer" class="bg-blue-800/60 hover:bg-blue-800 text-white border border-white/20 px-5 py-3 rounded-full font-semibold text-xs transition text-center inline-flex items-center justify-center gap-1.5 w-full sm:w-auto">
+                            <a href="https://www.linkedin.com/in/ahmadfaqihdidin" target="_blank" rel="noopener noreferrer" class="bg-blue-800/60 hover:bg-blue-800 text-white border border-white/20 px-5 py-3 rounded-lg font-semibold text-xs transition text-center shadow-xs hover:shadow-sm transform hover:-translate-y-0.5 active:translate-y-0 active:scale-98 inline-flex items-center justify-center gap-1.5 w-full sm:w-auto">
                                 <span>LinkedIn Profile</span>
                             </a>
                         </div>
@@ -1154,10 +1154,10 @@
                         HSE &amp; Training Professional specialized in mining safety systems, talent frameworks, and operational competence.
                     </p>
                     <div class="mt-4 sm:mt-5 flex items-center gap-2.5">
-                        <a href="mailto:ahmadfaqihdidin@gmail.com" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-600 flex items-center justify-center transition border border-slate-200/60" aria-label="Email">
+                        <a href="mailto:ahmadfaqihdidin@gmail.com" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-600 flex items-center justify-center transition border border-slate-200/60 shadow-xs" aria-label="Email">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                         </a>
-                        <a href="https://www.linkedin.com/in/ahmadfaqihdidin" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-600 flex items-center justify-center transition border border-slate-200/60" aria-label="LinkedIn">
+                        <a href="https://www.linkedin.com/in/ahmadfaqihdidin" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-600 flex items-center justify-center transition border border-slate-200/60 shadow-xs" aria-label="LinkedIn">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </a>
                     </div>
@@ -1218,18 +1218,18 @@
 
     <!-- Project Modal Dialog with Multi-Image Carousel -->
     <div class="modal fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 md:p-6 z-[100]" id="project-modal" role="dialog" aria-modal="true">
-        <div class="modal-content bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-7 relative border border-slate-100">
-            <button class="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 text-slate-400 hover:text-slate-800 transition p-1.5 rounded-full hover:bg-slate-100 cursor-pointer z-10" id="modal-close-button" aria-label="Close modal">
+        <div class="modal-content bg-white rounded-xl sm:rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-7 relative border border-slate-200/80">
+            <button class="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 text-slate-400 hover:text-slate-800 transition p-1.5 rounded-lg hover:bg-slate-100 cursor-pointer z-10 shadow-xs" id="modal-close-button" aria-label="Close modal">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             
-            <div class="relative w-full h-52 sm:h-64 md:h-72 rounded-xl sm:rounded-2xl overflow-hidden bg-slate-950 mb-4 sm:mb-5 group flex items-center justify-center" id="modal-carousel-container">
+            <div class="relative w-full h-52 sm:h-64 md:h-72 rounded-lg sm:rounded-xl overflow-hidden bg-slate-950 mb-4 sm:mb-5 group flex items-center justify-center" id="modal-carousel-container">
                 <img id="modal-img" class="w-full h-full object-contain transition duration-300" src="" alt="Project Preview"/>
                 <div class="hidden absolute inset-y-0 left-0 flex items-center pl-2" id="carousel-prev-wrap">
-                    <button class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-900/80 hover:bg-blue-600 text-white flex items-center justify-center transition shadow-md cursor-pointer" id="carousel-prev" aria-label="Previous image">‹</button>
+                    <button class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-slate-900/80 hover:bg-blue-600 text-white flex items-center justify-center transition shadow-xs cursor-pointer" id="carousel-prev" aria-label="Previous image">‹</button>
                 </div>
                 <div class="hidden absolute inset-y-0 right-0 flex items-center pr-2" id="carousel-next-wrap">
-                    <button class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-900/80 hover:bg-blue-600 text-white flex items-center justify-center transition shadow-md cursor-pointer" id="carousel-next" aria-label="Next image">›</button>
+                    <button class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-slate-900/80 hover:bg-blue-600 text-white flex items-center justify-center transition shadow-xs cursor-pointer" id="carousel-next" aria-label="Next image">›</button>
                 </div>
                 <div class="absolute bottom-2.5 right-3 bg-slate-950/80 text-white text-[11px] font-mono-code px-2.5 py-0.5 rounded-full shadow-sm" id="carousel-counter"></div>
             </div>
@@ -1239,13 +1239,13 @@
             <p class="text-slate-600 text-xs sm:text-sm leading-relaxed" id="modal-description"></p>
             
             <div class="mt-5 sm:mt-6 pt-4 border-t border-slate-100 flex justify-end">
-                <button class="bg-slate-900 text-white px-5 py-2.5 rounded-full text-xs font-semibold hover:bg-blue-600 transition cursor-pointer shadow-sm" id="modal-footer-close">Close Window</button>
+                <button class="bg-slate-900 text-white px-5 py-2.5 rounded-lg text-xs font-semibold hover:bg-blue-600 transition cursor-pointer shadow-xs hover:shadow-sm transform hover:-translate-y-0.5 active:translate-y-0 active:scale-98" id="modal-footer-close">Close Window</button>
             </div>
         </div>
     </div>
 
     <!-- Scroll to Top Button -->
-    <button aria-label="Back to top" class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-blue-600 text-white shadow-xl flex items-center justify-center hover:bg-blue-700 transition transform hover:-translate-y-1 cursor-pointer" id="back-to-top">
+    <button aria-label="Back to top" class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-blue-600 text-white shadow-sm hover:shadow-md flex items-center justify-center hover:bg-blue-700 transition transform hover:-translate-y-1 active:translate-y-0 cursor-pointer" id="back-to-top">
         <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
     </button>
 
